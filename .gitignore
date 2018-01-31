@@ -1,0 +1,93 @@
+/*
+!wp-content/
+# ignore all files starting with .
+.*
+
+# track this file .gitignore (i.e. do NOT ignore it)
+!.gitignore
+
+# track .editorconfig file (i.e. do NOT ignore it)
+!.editorconfig
+
+# track readme.md in the root (i.e. do NOT ignore it)
+!readme.md
+
+# ignore all files that start with ~
+~*
+
+# ignore OS generated files
+ehthumbs.db
+Thumbs.db
+
+# ignore Editor files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+
+# ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# ignore compiled files
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# ignore packaged files
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# ignore everything in the "wp-content" directory, except:
+# "mu-plugins" directory
+# "plugins" directory
+# "themes" directory
+wp-content/*
+!wp-content/plugins/
+!wp-content/themes/
+!sql.txt
+# ignore these plugins
+wp-content/plugins/hello.php
+
+# ignore specific themes
+wp-content/themes/twenty*/
+wp-content/plugins/index.php
+wp-content/plugins/addthis/
+wp-content/plugins/advanced-custom-fields-categories1/
+wp-content/plugins/advanced-excerpt/
+wp-content/plugins/autoptimize/
+wp-content/plugins/better-font-awesome/
+wp-content/plugins/categories-images/
+wp-content/plugins/comet-cache/
+wp-content/plugins/comment-rating-field-plugin/
+wp-content/plugins/contact-form-7/
+wp-content/plugins/itro-popup/
+wp-content/plugins/js_composer/
+wp-content/plugins/megamenu/
+wp-content/plugins/ninja-forms/
+wp-content/plugins/ninja-forms-blocks/
+wp-content/plugins/wysija-newsletters/
+wp-content/plugins/wordpress-seo-premium/
+wp-content/plugins/wp-mail-smtp/
+wp-content/themes/pranayama-yoga/
+wp-content/plugins/updraftplus/
+wp-content/plugins/recent-posts-widget-extended/
+wp-content/plugins/rich-text-excerpts/
+wp-content/plugins/widget-css-classes/
+wp-content/plugins/wp-editor-widget/
+wp-content/themes/index.php
+wp-content/plugins/akismet/
+wp-content/themes/flatsome/inc/
+wp-content/themes/flatsome/woocommerce/
+wp-content/themes/flatsome/template-parts/
+wp-content/themes/flatsome/assets/
+wp-content/themes/flatsome/sensei/
