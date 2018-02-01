@@ -54,7 +54,7 @@ Thumbs.db
 wp-content/*
 !wp-content/plugins/
 !wp-content/themes/
-!sql.txt
+!jb_sql.txt
 # ignore these plugins
 wp-content/plugins/hello.php
 

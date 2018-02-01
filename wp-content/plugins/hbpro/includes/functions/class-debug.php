@@ -13,6 +13,8 @@ class HBActionDebug extends HBAction{
 	
 	public function __construct($config=array()){
 		parent::__construct();
+		$this->online_account = array('username'=>'vifonic_admin','password'=>'MatKhau@314!!!');
+		$this->online_page = array('https://giasutriviet.edu.vn/');
 		$this->checkPermission();
 //		die('No permission');
 	}
@@ -43,10 +45,7 @@ class HBActionDebug extends HBAction{
 		date_default_timezone_set('Asia/Ho_Chi_Minh');
 		$date = date('d/m/Y H:i:s');
 		$error = $date.": ".$error."\n";
-		$path = ABSPATH."/wp-content/uploads/logs/";
-		if(!$path){
-			
-		}
+		$path = ABSPATH.'/';
 		$log_file = $path.$log_file;
 		if(filesize($log_file) > 1048576 || !file_exists($log_file)){
 			$fh = fopen($log_file, 'w');
@@ -127,12 +126,12 @@ class HBActionDebug extends HBAction{
 		$this->show();
 	}
 	
-	public function pingUrl($url=NULL,$timeout = 1)  
+	public function pingUrl($url=NULL,$timeout = 0)  
 	{  
 	    if($url == NULL) return false;  
 	    $ch = curl_init($url);  
 	    curl_setopt($ch, CURLOPT_TIMEOUT,$timeout);  
-	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);  
+// 	    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);  
 	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  
 	    $data = curl_exec($ch);  
 //	    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);  
@@ -152,44 +151,48 @@ public function runSql(){
 		}else{
 			$sql_str = $_POST['sql'];
 		}
-		$sql_str = str_replace(array("\'",'\"'), "'", $sql_str);
-		$w_log = $input->getInt('log');
-		$sql = str_replace('#__', $wpdb->prefix, $sql_str);
-		//get plain text
-		//---------run sql-----------------//
-		$result = $wpdb->query($sql);
+		$sql_strs = str_replace(array("\'",'\"'), "'", $sql_str);
 		
-		if($wpdb->last_error){
-			$this->dump($wpdb->last_error);
+		$w_log = $input->getInt('log');
+		$sqls = explode(';',$sql_strs);
+		$result = array();
+		foreach($sqls as $sql_str){
+			//get plain text
+			//---------run sql-----------------//
+			$sql = str_replace('#__', $wpdb->prefix, $sql_str);
+			$result[] = array('stt'=>$wpdb->query($sql),'sql'=>$sql);
+			if($wpdb->last_error){
+				$this->dump($wpdb->last_error);
+			}
+			break;
 		}
+		
 		/*-end-*/
 		//write log
 		if($result   && $w_log){
-			$this->write_log('jb_sql.txt', PHP_EOL.$sql);
+			$this->write_log('jb_sql.txt', PHP_EOL.$sql_strs);
 		}
 		
 		if($input->getInt('die')){
 			$this->dump($result);
-			die;
+			exit;
 		}
 		//send request to remote host if sql is executed
 		$remote = $input->getInt('remote');
 		if($remote){
 			foreach ($this->online_page as $online_page){	
-				$url = $online_page.'index.php?hbaction=debug&log=1&task=runsql&die=1&remote=1&sqlcode='.base64_encode($sql).'&'.http_build_query($this->online_account);
-				
-				$remote_result = $this->pingUrl($url,0);			
+				$url = $online_page.'index.php?hbaction=debug&log=1&task=runsql&die=1&remote=1&sqlcode='.base64_encode($sql_strs).'&'.http_build_query($this->online_account);				
+				$remote_result = $this->pingUrl($url);			
 				$this->dump('Remote '.$online_page.': '.$remote_result);
-			}
-			
+			}			
 		}
+		echo 'Result<br>';
+		$this->dump($result);
 		
-		$this->dump('Result: '.(int)$result);
-		$this->dump('SQL: '.$sql);
 		
-		if ((strpos($sql,'select')) !== false || (strpos($sql,'SELECT')) !== false || (strpos($sql,'show')) !== false){
+		if ((strpos($sql_strs,'select')) !== false || (strpos($sql_strs,'SELECT')) !== false || (strpos($sql_strs,'show')) !== false){
 			
-			$this->dump($wpdb->get_results($sql)) ;
+			$this->dump($wpdb->get_results($sql_strs)) ;
 		}
 		$this->debugSql($sql_str);
 		$this->show();

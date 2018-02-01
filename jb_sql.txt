@@ -1,0 +1,45 @@
+01/02/2018 13:37:37: 
+CREATE TABLE IF NOT EXISTS `#__hbpro_users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `full_name` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `type` tinyint(1) not null default 0,
+  `email` varchar(200) NOT NULL,
+  `address` varchar(400) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `birthday` date NOT NULL,
+  `province_id` int(11) NOT NULL,
+  `district_id` int(11) NOT NULL,
+  `village_id` int(11) NOT NULL,
+  `exp_type` tinyint(1) not null,
+  `degree_type` tinyint(1) not null,
+  `class_type` tinyint(1) NOT NULL,
+  `mobile` varchar(15) NOT NULL,
+  `lang` varchar(10) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `subject_id` tinyint(1) NOT NULL,
+  `gender` varchar( 1 ) NULL DEFAULT NULL,
+  `params` TEXT NOT NULL,
+  `icon` varchar(200),
+  `time` varchar(11) NOT NULL default '08:00-20:00',
+  `salary` decimal(15,2) NOT NULL,
+  `desc` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 
+01/02/2018 13:40:56: 
+CREATE TABLE IF NOT EXISTS `#__hbpro_rating` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `star_number` tinyint(1) not null default 0,
+  `email` varchar(200) NOT NULL,
+  `notes` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `status` tinyint(1) not null,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 
+01/02/2018 13:42:11: 
+CREATE TABLE IF NOT EXISTS `#__hbpro_subject` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `desc` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 
