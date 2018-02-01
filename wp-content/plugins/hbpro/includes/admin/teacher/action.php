@@ -4,17 +4,17 @@ class HBActionTeacher extends hbaction{
 	
 	public function save(){
 		global $wpdb;
-		
+// 		die('dfd');
 		//check captcha
 		$post = $this->input->getPost();
 		$data = $post['data'];
 		
 		$data['created'] = current_time( 'mysql' );
 		if($this->input->get('id')){				
-			$result = $wpdb->update("{$wpdb->prefix}teacher", $data, array('id'=>$this->input->get('id')));
+			$result = $wpdb->update("{$wpdb->prefix}hbpro_users", $data, array('id'=>$this->input->get('id')));
 			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$this->input->get('id')));
 		}else{
-			$result = $wpdb->insert("{$wpdb->prefix}teacher", $data);
+			$result = $wpdb->insert("{$wpdb->prefix}hbpro_users", $data);
 			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$wpdb->insert_id));
 		}
 		

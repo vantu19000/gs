@@ -5,7 +5,7 @@
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
+	die('Retrict access'); // Exit if accessed directly
 }
 
 class HB_Admin_Meta_Boxes {

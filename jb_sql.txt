@@ -43,3 +43,26 @@ CREATE TABLE IF NOT EXISTS `#__hbpro_subject` (
   `desc` varchar(1000) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 
+01/02/2018 23:31:22: 
+alter table #__hbpro_users add status boolean not null;
+
+----DUONG moi them----
+01/02/2018 23:46:32: 
+CREATE TABLE IF NOT EXISTS `#__hbpro_orders` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `notes` varchar(1000) NOT NULL,
+  `subject_id` int(11) not null,
+  `created` datetime not null,
+  `total` decimal(15,2) not null,
+  `user_id` int(11) not null,
+  `teacher_id` int(11) not null,
+  `province_id` int(11) not null,
+  `district_id` int(11) not null,
+  `village_id` int(11) not null,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 
+02/02/2018 00:01:14: 
+ALTER TABLE #__hbpro_orders add email varchar(200) not null, add full_name varchar(200) not null, add mobile varchar(15) not null, add address varchar(1000) not null;
+02/02/2018 00:17:11: 
+ALTER TABLE #__hbpro_orders add order_status varchar(20) not null, add pay_status varchar(20) not null;

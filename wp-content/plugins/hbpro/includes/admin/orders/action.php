@@ -1,74 +1,36 @@
 <?php
-class hbactionRate extends hbaction{	
+
+class HBActionOrders extends hbaction{	
 	
 	public function save(){
-		
 		global $wpdb;
-		HBImporter::helper('date');
 		
-		if ( empty( $_POST['hb_meta_nonce'] ) || ! wp_verify_nonce( $_POST['hb_meta_nonce'], 'hb_action' ) ) {
-			wp_die('invalid request');
+		//check captcha
+		$post = $this->input->getPost();
+		$data = $post['data'];
+		
+		$data['created'] = current_time( 'mysql' );
+		if($this->input->get('id')){				
+			$result = $wpdb->update("{$wpdb->prefix}hbpro_users", $data, array('id'=>$this->input->get('id')));
+			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$this->input->get('id')));
+		}else{
+			$result = $wpdb->insert("{$wpdb->prefix}hbpro_users", $data);
+			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$wpdb->insert_id));
 		}
-		//get data from request
-		$data 	= $_POST['data'];		
-		$weekdays = $_POST['weekday'];
-		$frate 	= $_POST['frate'];
-		$frateparams = $_POST['frateparams'];
-		$route_id = $_REQUEST ['route_id'];
-		$data['route_id'] = $route_id;
 		
-		//quote all value to push db
-		foreach ( $frate as &$rate ) {
-			$rate = array_merge($frateparams, $rate);
+		
+		if($result){
+			hb_enqueue_message('Thêm giáo viên thành công');
+			$_SESSION['teacher']['data'] = false;
 		}
-		$key =  array_keys($frate['base']);
-		
-		$data ['startdate'] 	= HBDateHelper::createFromFormatYmd($data ['startdate']);
-		$data ['enddate'] 		= HBDateHelper::createFromFormatYmd($data ['enddate']);
-		$startdate = new DateTime( $data ['startdate'] );
-		$enddate = new DateTime ( $data ['enddate'] );
-		$starttoend = $startdate->diff ( $enddate )->days;
-		
-		// delete old record and record over than 10 day before	
-		$delete_query = "delete from {$wpdb->prefix}HB_routerate 
-					WHERE (route_id=$route_id
-					AND date BETWEEN '".$startdate->format('Y-m-d')."' AND '".$enddate->format('Y-m-d')."'
-					AND DATE_FORMAT(date,'%w') IN (".implode(',', $weekdays)."))
-					OR (date < '".HBFactory::getDate('-10 Days')->format('Y-m-d')."' AND route_id=$route_id )";	
-		
-		$wpdb->get_results($delete_query);
-			
-		//insert new data to rate table	
-		$insert_query = "INSERT INTO {$wpdb->prefix}HB_routerate
-		 (route_id,date,".implode(',', $key).")";
-		$values = array ();
-			
-		for($i = 0; $i <= $starttoend; $i ++) {
-			$dw =(int)$startdate->format ( 'w' );
-			if (in_array ( "$dw", $weekdays )) {
-				foreach ( $frate as $r ) {
-					$temp = array (
-							$route_id,
-							($startdate->format('Y-m-d'))
-					);
-					$temp = array_merge ($temp, $r);
-		
-					$values [] = '"'.implode ( '","', $temp ).'"';
-				}
-			}
-			$startdate = $startdate->add ( new DateInterval ( 'P1D' ) );
+		else{
+			//neu that bai luu du lieu nay lai de user khong phai nhap lai du lieu nay
+			$_SESSION['teacher']['data'] = (object)$data;
+			hb_enqueue_message($wpdb->last_error,'error');
 		}
-		// Save rate
-		$insert_query .= 'VALUES ('.implode('),(', $values).')';
 		
-		$wpdb->get_results($insert_query);
 		
-		$frate = $_POST['frate'];
-		$this->saveLog($frate,$weekdays,$data,$frateparams);
-				
-		wp_redirect(admin_url('admin.php?page=HB_rate&route_id='.$route_id));
-		
-		return;
+		exit;
 	}
 	
 	/*
@@ -132,41 +94,6 @@ class hbactionRate extends hbaction{
 		wp_redirect(admin_url('admin.php?page=HB_rate&route_id='.$route_id));		
 		return;
 	
-	}
-	
-	function deleteratelogs(){
-		$route_id 		= $_REQUEST['route_id'];
-		$cid = $_REQUEST['log'];
-		if (count($cid)) {
-			global $wpdb;
-			$wpdb->get_results("DELETE FROM {$wpdb->prefix}HB_routeratelog WHERE id IN (".implode(',', $cid).")");
-		}
-	
-		wp_redirect(admin_url('admin.php?page=HB_rate&route_id='.$route_id));
-		
-		return;
-	}
-	
-	public function show_rate_detail(){
-		HBImporter::includes('admin/rate/view');
-		die();
-	}
-	
-	public function new_calendar(){
-		$input = HBFactory::getInput();
-		$min_date = DateTime::createFromFormat('Y',$_REQUEST['year'])->modify('-1 year')->format('Y');
-		$max_date = DateTime::createFromFormat('Y',$_REQUEST['year'])->modify('+1 year')->format('Y');
-		$calendar_attributes = array (
-				'min_select_year' => $min_date,
-				'max_select_year' => $max_date
-		);
-		require_once HB_PATH.'classes/calendar.php';
-		HBImporter::css('calendar');
-		$calendar = new PN_Calendar($calendar_attributes);
-		echo $calendar->draw(array(), $input->get('year'), $input->get('month'));
-		exit;
-			
-			
 	}
 	
 }

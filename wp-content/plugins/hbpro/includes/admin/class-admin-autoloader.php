@@ -1,6 +1,6 @@
 <?php
 //load include file by Url
-defined ( 'ABSPATH' ) or die ();
+defined ( 'ABSPATH' ) or die ('Retrict access');
 class HB_Admin_Autoload{
 	
 	public function __construct(){
@@ -20,9 +20,13 @@ class HB_Admin_Autoload{
 		}
 		
 		//defined action in request to execute
+		
 		add_action( 'admin_post_hbaction', array($this,'execute_action'),15,1);
+		/* wordpress rule
 		$role_object = get_role( 'editor' );
 		$role_object->add_cap( 'edit_theme_options' );
+		*/
+		
 	}
 	
 	public function is_file($filename){
@@ -33,6 +37,7 @@ class HB_Admin_Autoload{
 	 * Execute admin-post function via url request
 	 */
 	function execute_action(){
+// 		die('223');
 		if(!current_user_can( 'manage_options' )){
 			wp_redirect(admin_url('wp-login.php'));
 			exit;
@@ -54,13 +59,12 @@ class HB_Admin_Autoload{
 			$task = $input->get('task');
 			//Import action by request
 			HBImporter::viewaction($request_action);
-			$class = 'hbaction'.$request_action;
+			$class = 'HBAction'.$request_action;
 		
 			$action = new $class;
 			$action->execute($task);
 			exit;
 		}
-		exit;
 	}
 	
 }

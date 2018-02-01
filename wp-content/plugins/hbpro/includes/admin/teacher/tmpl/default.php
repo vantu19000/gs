@@ -11,7 +11,7 @@
 defined('ABSPATH') or die('Restricted access');
 ?>
 <div class="wrap">
-	<h1>Đơn đặt hàng <a href="<?php echo admin_url('admin.php?page=teacher&layout=edit')?>" class="page-title-action" >Thêm giáo viên</a></h1>
+	<h1>Quản lí gia sư <a href="<?php echo admin_url('admin.php?page=teacher&layout=edit')?>" class="page-title-action" >Thêm giáo viên</a></h1>
 	
 	<div class="tablenav top">
 		<div class="alignleft actions bulkactions">
@@ -60,8 +60,8 @@ defined('ABSPATH') or die('Restricted access');
 				<tbody>
 					<?php foreach ($this->items as $item){?>
 						<tr>
-							<td><?php echo $item->name;?></td>
-							<td><?php echo $item->phone;?></td>
+							<td><?php echo $item->full_name;?></td>
+							<td><?php echo $item->mobile;?></td>
 							<td><?php echo $item->email;?></td>
 							<td><?php echo $item->address;?></td>
 							<td><?php echo $item->created;?></td>

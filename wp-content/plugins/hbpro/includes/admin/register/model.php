@@ -5,7 +5,7 @@ class HBModelRegister extends WP_List_Table{
 		$input= HBFactory::getInput();
 		$limit = $input->get('limit',0);
 		$offset = $input->get('offset');
-		$query = "Select * from {$wpdb->prefix}hbpro_register_email order by id DESC";
+		$query = "Select * from {$wpdb->prefix}hbpro_users order by id ASC where status=0";
 		if($limit && ($offset != null || $offset != '')){
 			
 			$query .= " limit $offset,$limit";
@@ -20,7 +20,7 @@ class HBModelRegister extends WP_List_Table{
 			$id= $input->get('id');
 		}
 		if($id){
-			$query = "Select * from {$wpdb->prefix}hbpro_register_email where id = $id";
+			$query = "Select * from {$wpdb->prefix}hbpro_users where id = $id";
 			
 			$result =  $wpdb->get_results($query);
 			return reset($result);
