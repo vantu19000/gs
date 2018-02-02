@@ -1,5 +1,5 @@
 <?php
-class HBModelTeacher extends WP_List_Table{
+class HBModelTeacher {
 	public function get_table_name(){
 		global $wpdb;
 		return "{$wpdb->prefix}hbpro_users";

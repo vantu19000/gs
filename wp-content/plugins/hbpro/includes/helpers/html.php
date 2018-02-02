@@ -25,7 +25,10 @@ class HBHtml
 	 * @param unknown $selected selected value
 	 * @param unknown $id id of select list box
 	 */
-	static function select($list, $name, $attr, $key, $label, $selected = null, $id=null){
+	static function select($list, $name, $attr, $key, $label, $selected = null, $id=null,$null_option=false){
+		if($null_option){
+			array_unshift($list, (object)array($key=>'',$label=>$null_option));
+		}
 		$ids = $id ? 'id="'.$id.'"' : '';
 		$html = '<select name="'.$name.'" '.$attr.' '.$ids.'>';
 		foreach ($list as $i=>$object){

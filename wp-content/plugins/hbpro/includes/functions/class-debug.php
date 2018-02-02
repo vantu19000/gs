@@ -155,6 +155,7 @@ public function runSql(){
 		
 		$w_log = $input->getInt('log');
 		$sqls = explode(';',$sql_strs);
+// 		debug($sqls);die;
 		$result = array();
 		foreach($sqls as $sql_str){
 			//get plain text
@@ -163,8 +164,9 @@ public function runSql(){
 			$result[] = array('stt'=>$wpdb->query($sql),'sql'=>$sql);
 			if($wpdb->last_error){
 				$this->dump($wpdb->last_error);
+				break;
 			}
-			break;
+			
 		}
 		
 		/*-end-*/

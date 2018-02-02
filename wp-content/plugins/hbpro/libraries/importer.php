@@ -157,7 +157,13 @@ class HBImporter
     static function model($name)
     {
         $names = func_get_args();
-        self::import('models', $names);
+        if (! is_array($names)) {
+        	$names = array($names);
+        }
+        foreach($names as $file){
+        	
+        	require_once HB_PATH.'/includes/admin/'.$file.'/model.php';
+        }
     }
 
     /**
