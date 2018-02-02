@@ -20,19 +20,31 @@ class HBActionUser extends HBAction{
 		if ( empty( $_POST['hb_meta_nonce'] ) || ! wp_verify_nonce( $_POST['hb_meta_nonce'], 'hb_action' ) ) {
 			wp_die('invalid request');
 		}
+
 		//check captcha
 		$post = $this->input->getPost();
 		$data = $post['teacher'];
-		
-		$data['created'] = current_time( 'mysql' );
-		if($wpdb->insert("{$wpdb->prefix}teacher", $data)){
-			hb_enqueue_message('Chúc mừng bạn đã đăng kí thành công, chúng tôi sẽ liên lạc với bạn sớm nhất có thể!');
-		}
-		else{ 
-			hb_enqueue_message('Đăng kí thất bại, bạn vui lòng đăng kí lại hoặc liên hệ đội hỗ trợ!');
-			//debug($wpdb->insert("{$wpdb->prefix}teacher", $data));die;
-		}
-		wp_safe_redirect(site_url('thong-bao'));
+        $data['created'] = current_time( 'mysql' );
+
+        if ($post['password'] != $post['re_password']){
+            wp_safe_redirect(site_url("dang-ky-lam-gia-su"));
+            exit();
+        }
+		$new_user = wp_create_user($post['username'], $data['email'], wp_hash_password($post['password']));
+
+		if ($new_user){
+
+            $users_info = get_user_by('login', $post['username']);
+            $data['user_id'] = $users_info->id;
+            if($wpdb->insert("{$wpdb->prefix}hbpro_users", $data)){
+                hb_enqueue_message('Bạn đã đăng ký thành công, vui lòng hoàn thành hồ sơ gia sư');
+            }
+            else{
+                //print_r($wpdb->show_errors);
+                hb_enqueue_message('Đăng kí thất bại, bạn vui lòng đăng kí lại hoặc liên hệ đội hỗ trợ!');
+            }
+        }
+		wp_safe_redirect(site_url('?view=login'));
 		exit;
 	}	
 	
@@ -94,13 +106,14 @@ class HBActionUser extends HBAction{
 		}
 		$post = $this->input->getPost();
 		$creds = array(
-					'user_login'    => $post['user_login'],
-					'user_password' => $post['user_pass'],
-					'remember'		=> $post['remember']
-			);
+            'user_login'    => $post['user_login'],
+            'user_password' => $post['user_pass'],
+            'remember'		=> $post['remember']
+        );
 		$user = wp_signon( $creds, false );
+
 		if($user->ID){
-			wp_redirect(site_url());
+			wp_redirect(site_url('tai-khoan'));
 			
 		}else{
 			wp_redirect(site_url('dang-nhap'));

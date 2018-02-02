@@ -17,7 +17,7 @@ get_header();
 		<div class="row">
 			<div class="col-md-2"></div>
 			<div class="col-md-8">
-				<center><h2>Đăng kí làm giảng viên của WOAFUN</h2></center>
+				<center><h2>Đăng kí làm gia sư</h2></center>
 				<form action="index.php?hbaction=user&task=registerteacher" method="post" style="width:70%;margin: 10px auto;">
 					<div class="">
 						<div class="form-group row">

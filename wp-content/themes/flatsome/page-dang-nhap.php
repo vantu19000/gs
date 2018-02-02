@@ -20,20 +20,20 @@ get_header();
 					<form action="<?php echo site_url('index.php?hbaction=user&task=login')?>" method="post" class="well well-small" >
 						<div class="">
 							<div class="form-group row">
-								<label class="col-xs-3 col-form-label">Tên đăng nhập</label>
+								<label class="col-xs-3 col-form-label" for="name">Tên đăng nhập (*)</label>
 								<div class="col-xs-9">
 									<input class="form-control input-medium name" required type="text" id="name"
 										name="user_login" oninvalid="this.setCustomValidity('Vui lòng điền tên đăng nhập của bạn')"/>
 								</div>
 							</div>
 							<div class="form-group row">
-								<label class="col-xs-3 col-form-label">Mật khẩu</label>
+								<label class="col-xs-3 col-form-label" for="password">Mật khẩu (*)</label>
 								<div class="col-xs-9">
 									<input class="form-control input-medium required name" required type="password" id="password"
 										name="user_pass" maxlength="150" oninvalid="this.setCustomValidity('Không có mật khẩu thì đăng nhập kiểu gì hả thánh')"/>
 								</div>
 							</div>
-							<input type="checkbox" id="term" name="remember"/> Ghi nhớ đăng nhập
+							<input type="checkbox" id="term" name="remember"/> <label for="term"> Ghi nhớ đăng nhập</label>
 							<div class="clearfix"></div>
 							<a href="<?php echo site_url('wp-login.php?action=lostpassword')?>">Quên mật khẩu</a>
 							<div class="clearfix"></div>
@@ -52,3 +52,10 @@ get_header();
 </div><!-- #primary -->
 <?php
 get_footer();
+?>
+
+<style>
+    .content-area{
+        margin-top: 30px;
+    }
+</style>
