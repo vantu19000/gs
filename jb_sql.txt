@@ -69,3 +69,7 @@ ALTER TABLE #__hbpro_orders add order_status varchar(20) not null, add pay_statu
 ---MOI them----
 03/02/2018 23:21:05: 
 alter table #__hbpro_users add excerpt varchar(700) not null
+04/02/2018 23:13:38: 
+alter table #__hbpro_users modify salary int(11) not null;
+04/02/2018 23:37:12: 
+alter table #__hbpro_rating add created_by int(11) not null;

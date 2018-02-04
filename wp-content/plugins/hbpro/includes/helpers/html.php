@@ -15,6 +15,7 @@ defined('ABSPATH') or die('Restricted access');
 
 class HBHtml
 {
+	static $star_lib;
 	/**
 	 * Return a select list html
 	 * @param mixed $list list of option format array(object,object,etc)
@@ -274,9 +275,21 @@ class HBHtml
 		<?php
 	}
 		
-	
+	static function star_rating($number){
+		if(!isset(self::$star_lib)){
+			self::$star_lib = 1;
+			echo self::enqueueScript('jQuery(document).ready(function($){
+				$(".starrr").starrr({
+				  rating: $(this).attr("rating")
+				});
+			});');
+			echo "<style>.starrr {display: inline-block; }.starrr a {font-size: 16px;padding: 0 1px;cursor: pointer;color: #FFD119;text-decoration: none; }</style>";
+		}
+		$number_int = ceil($number);
+		$number_haft = abs(($number-$number_int)) > 0.5 ? '.5' : '';
+		return "<div class='starrr' rating='{$number_int}{$number_haft}'></div>";
+	}
 			
 
 }
-
 ?>

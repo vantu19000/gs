@@ -63,7 +63,7 @@ class HBHelper
 	
 	static function renderLayout($name,$displayData,$path='layouts'){
 		$file = $path.DS.$name.'.php';
-		$find[] = HB_Template_Loader::getRoot().$file;
+		$find[] = HB_Template_Loader::getRoot($file);
 		$template       = locate_template( array_unique( $find ) );
 		if(!$template){
 			$template = HB_PATH ."templates/$file";
