@@ -25,9 +25,10 @@ $exp_type = HBParams::get_exp_type();
 	<div class="container">
 		<div id="main" class="row" style="margin-bottom:10px;">
 			<div class="col medium-4">
-				<div class="row resultItem">
+				<div class="">
                     <center><h2>Thông tin gia sư</h2></center>
-					<img width="100px" height="100px" class="img-circle" src="<?php echo $item->icon?>">
+                    <div class="clearfix"></div>
+					<p><img width="100px" height="100px" class="img-circle" src="<?php echo $item->icon ? $item->icon :"https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg"?>"></p>
                     <p style="font-size: 20px">Họ tên: <?php echo $item->full_name?></p>
                     <?php echo HBHtml::star_rating($item->star_number)?>
                     <p> <?php echo $exp_type[$item->exp_type]?> </p>
@@ -36,12 +37,9 @@ $exp_type = HBParams::get_exp_type();
                     <p><i class="fa fa-location-arrow" aria-hidden="true"></i> Địa chỉ: <?php echo $item->address?></p>
                     <p><?php echo $item->excerpt?> </p>
 					
-
-                    <div class="row lead evaluation">
-                        <div class="priceBox">
-                            <p><?php echo $item->salary?>vnd/giờ</p>
+					<div class="priceBox">
+                            <p><i class="fa fa-money" aria-hidden="true"></i> Mức lương mong muốn: <?php echo $item->salary?>vnd/giờ</p>
                         </div>
-                   </div>
 
 
                 </div>
@@ -92,7 +90,6 @@ $exp_type = HBParams::get_exp_type();
                         <input type="hidden" value="<?php echo $item->id; ?>" name="parent[teacher_id]">
 						
 					</div>
-					<input type="hidden" name="teacher_id" value="<?php echo $item->id?>"/>
 					
 					<?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
 					<center><button type="submit" class="button">Đăng kí</button></center>

@@ -27,13 +27,10 @@ class HBActionOrder extends HBAction{
 		$insert = $wpdb->insert("{$wpdb->prefix}hbpro_orders", $data);
 		if ($insert){
             hb_enqueue_message('Chúc mừng bạn đã đăng kí thành công');
-            wp_die("Chúc mừng bạn đã đăng kí thành công");
-            wp_safe_redirect(site_url('thong-bao'));
+            wp_safe_redirect(site_url('/?view=message'));
         }else{
             hb_enqueue_message('Đăng ký thất bại');
-            die($wpdb->show_errors());
-            wp_die("Đăng ký thất bại");
-            wp_safe_redirect(site_url('thong-bao'));
+            wp_safe_redirect(site_url('/?view=message'));
         }
 
 		exit;

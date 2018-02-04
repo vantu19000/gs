@@ -20,11 +20,12 @@ $exp_type = HBParams::get_exp_type();
 		<center><h2>Thông tin gia sư</h2></center>
 		<div id="main" class="row" style="margin-bottom:10px;">
 			<div class="col medium-6">
-				<img class="img-circle" src="<?php echo $item->icon?>" style="width:100%" alt="<?php echo $item->full_name?>"/>
+				<img class="img-circle" src="<?php echo $item->icon?$item->icon:'https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'?>" style="width:100%" alt="<?php echo $item->full_name?>"/>
 			</div>
 			<div class="col medium-6">
 				
 				<p style="font-size: 20px">Họ tên: <?php echo $item->full_name?></p>
+				<?php echo HBHtml::star_rating($item->star_number)?>
                     <p> <?php echo $exp_type[$item->exp_type]?> </p>
                     <p>Ngày sinh: <?php echo (new DateTime($item->birthday))->format('d-m-Y')?></p>
                     <p>Bằng cấp: <?php echo HBParams::get_degree_type()[$item->degree_type];?></p>

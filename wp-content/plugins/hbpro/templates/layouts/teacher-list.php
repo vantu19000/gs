@@ -1,4 +1,5 @@
 <?php $exp_type = HBParams::get_exp_type();
+$order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
 ?>
 <div class="row resultItem">
 	<div class="col medium-3">
@@ -7,7 +8,7 @@
 	</div>
 	<div class="col medium-6">
 		<p style="font-size: 20px">
-			<a href=""> <?php echo $displayData->full_name?> </a>
+			<a href="<?php echo $order_link?>"> <?php echo $displayData->full_name?> </a>
 		</p>
 		<p>
 			<i class="fa fa-graduation-cap" aria-hidden="true"></i> <?php echo $exp_type[$displayData->exp_type]?> <span>
@@ -28,7 +29,7 @@
 			</div>
 
 		</div>
-		<a href="<?php echo site_url().'?view=orderbook&teacher_id='.$displayData->id?>"
+		<a href="<?php echo $order_link?>"
 			class="button">Đăng ký học</a>
 	</div>
 </div>
