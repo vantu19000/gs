@@ -16,7 +16,7 @@ $input = HBFactory::getInput();
 // $items = $model->getItems();
 global $wpdb;
 $exp_type = HBParams::get_exp_type();
-$query = "Select u.*,AVG(star_number) as star_number,count(r.id) as star_volume from {$wpdb->prefix}hbpro_users as u
+$query = "Select u.*,AVG(r.star_number) as star_number,count(r.id) as star_volume from {$wpdb->prefix}hbpro_users as u
 LEFT JOIN {$wpdb->prefix}hbpro_rating as r ON r.user_id=u.id WHERE u.status=1";
 $file_query = array('subject_id','exp_type','class_type','degree_type','district_id','province_id');
 $where = array();
@@ -33,13 +33,13 @@ if(!empty($where)){
 }
 $query .= ' GROUP BY u.id';
 $items = $wpdb->get_results($query);
+
 $total= count($items);
 $number_result = array();
 // debug($items);die;
 foreach($exp_type as $e=>$type){
 	$number_result[$e] = array_filter($items,function($obj) use ($e) {return $obj->exp_type==$e;});
 }
-
 
 ?>
 

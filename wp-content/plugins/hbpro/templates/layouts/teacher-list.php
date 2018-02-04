@@ -1,8 +1,9 @@
-<?php $exp_type = HBParams::get_exp_type()?>
+<?php $exp_type = HBParams::get_exp_type();
+?>
 <div class="row resultItem">
 	<div class="col medium-3">
 		<img width="100px" height="100px" class="img-circle"
-			src="<?php echo $displayData->icon?>">
+			src="<?php echo $displayData->icon ? $displayData->icon : 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'?>">
 	</div>
 	<div class="col medium-6">
 		<p style="font-size: 20px">

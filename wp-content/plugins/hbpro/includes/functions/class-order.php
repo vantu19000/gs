@@ -22,10 +22,20 @@ class HBActionOrder extends HBAction{
 		//check captcha
 		$post = $this->input->getPost();
 		$data = $post['parent'];
+
 		$data['created'] = current_time( 'mysql' );
-		$wpdb->insert("{$wpdb->prefix}order", $data);
-		hb_enqueue_message('Chúc mừng bạn đã đăng kí thành công');
-		wp_safe_redirect(site_url('thong-bao'));
+		$insert = $wpdb->insert("{$wpdb->prefix}hbpro_orders", $data);
+		if ($insert){
+            hb_enqueue_message('Chúc mừng bạn đã đăng kí thành công');
+            wp_die("Chúc mừng bạn đã đăng kí thành công");
+            wp_safe_redirect(site_url('thong-bao'));
+        }else{
+            hb_enqueue_message('Đăng ký thất bại');
+            die($wpdb->show_errors());
+            wp_die("Đăng ký thất bại");
+            wp_safe_redirect(site_url('thong-bao'));
+        }
+
 		exit;
 	}
 	
