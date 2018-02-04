@@ -46,7 +46,6 @@ CREATE TABLE IF NOT EXISTS `#__hbpro_subject` (
 01/02/2018 23:31:22: 
 alter table #__hbpro_users add status boolean not null;
 
-----DUONG moi them----
 01/02/2018 23:46:32: 
 CREATE TABLE IF NOT EXISTS `#__hbpro_orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -66,3 +65,7 @@ CREATE TABLE IF NOT EXISTS `#__hbpro_orders` (
 ALTER TABLE #__hbpro_orders add email varchar(200) not null, add full_name varchar(200) not null, add mobile varchar(15) not null, add address varchar(1000) not null;
 02/02/2018 00:17:11: 
 ALTER TABLE #__hbpro_orders add order_status varchar(20) not null, add pay_status varchar(20) not null;
+
+---MOI them----
+03/02/2018 23:21:05: 
+alter table #__hbpro_users add excerpt varchar(700) not null

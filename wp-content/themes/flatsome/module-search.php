@@ -21,43 +21,44 @@ array_unshift($subject_types, (object)array('value'=>'','text'=>'------ Trình m
 $districts = HBParams::get_districts();
 array_unshift($districts, (object)array('matp'=>'','name'=>'------ Chọn thành phố -----'));
 
+$exp_type = HBParams::get_exp_type();
 
 HBImporter::model('teacher');
 $model = new HBModelTeacher();
 $items = $model->getItems();
 
-$exp_type = HBParams::get_exp_type();
 $total= count($items);
 $number_result = array();
 // debug($items);die;
 foreach($exp_type as $e=>$type){
 	$number_result[$e] = array_filter($items,function($obj) use ($e) {return $obj->exp_type==$e;});
 }
+
 // debug($class_types);
 ?>
-<form method="get" class="searchform" action="<?php echo esc_url( home_url( '/' ) ); ?>" role="search">
+
 	
 <div class="container">
-
-    <div class="row filterBox">
-        <div class="col medium-3">
-            <?php echo HBHtml::select($class_types, 'class_type', 'class="form-control filterCss"', 'value', 'text',$input->get('class_type'));?>
-            <?php echo HBHtml::select($degree_types, 'degree_type', 'class="form-control filterCss"', 'value', 'text',$input->get('degree_type'));?>            
-        </div>
-        <div class="col medium-3">
-        	<?php echo HBHtml::select($subject_types, 'subject_type', 'class="form-control filterCss"', 'value', 'text',$input->get('subject_type'));?>
-        	<?php echo HBHtml::select($districts, 'district', 'class="form-control filterCss"', 'matp', 'name',$input->get('district_id'));?>
-        </div>
-        <div class="col medium-3">
-            <?php echo HBHtml::select(HBParams::get('gender','arrayObject'), 'gender', 'class="form-control filterCss"', 'value', 'text',$input->get('gender'),'gender','------ Chọn giới tính -----');?>
-            <?php echo HBHtml::select(HBParams::get_provinces(), 'province_id', 'class="form-control filterCss"', 'maqh', 'name',$input->get('province_id'),'province_id','------ Quận/Huyện -----');?>
-           
-        </div>
-        <div class="col medium-3">
-            <button type="button" class="btn btn-info">Tìm kiếm</button>
-        </div>
-    </div>
-
+	<form method="get" class="searchform" action="<?php echo esc_url( get_page('')->page_name ); ?>" role="search">
+	    <div class="row filterBox">
+	        <div class="col medium-3">
+	            <?php echo HBHtml::select($class_types, 'class_type', 'class="form-control filterCss"', 'value', 'text',$input->get('class_type'));?>
+	            <?php echo HBHtml::select($degree_types, 'degree_type', 'class="form-control filterCss"', 'value', 'text',$input->get('degree_type'));?>            
+	        </div>
+	        <div class="col medium-3">
+	        	<?php echo HBHtml::select($subject_types, 'subject_type', 'class="form-control filterCss"', 'value', 'text',$input->get('subject_type'));?>
+	        	<?php echo HBHtml::select($districts, 'district', 'class="form-control filterCss"', 'matp', 'name',$input->get('district_id'));?>
+	        </div>
+	        <div class="col medium-3">
+	            <?php echo HBHtml::select(HBParams::get('gender','arrayObject'), 'gender', 'class="form-control filterCss"', 'value', 'text',$input->get('gender'),'gender','------ Chọn giới tính -----');?>
+	            <?php echo HBHtml::select(HBParams::get_provinces(), 'province_id', 'class="form-control filterCss"', 'maqh', 'name',$input->get('province_id'),'province_id','------ Quận/Huyện -----');?>
+	           
+	        </div>
+	        <div class="col medium-3">
+	            <button type="submit" class="button  " >Tìm kiếm</button>
+	        </div>
+	    </div>
+	</form>
     <div class="row resultBox">
         <h2 class="text-center">Kết quả tìm kiếm</h2>
         <ul class="nav nav-tabs">
@@ -72,29 +73,7 @@ foreach($exp_type as $e=>$type){
         <div class="tab-content">        	
             <div id="home" class="tab-pane fade in active">
                <?php foreach($items as $item){?>
-               		<div class="row resultItem">
-		                    <div class="col medium-1">
-		                        <img width="100px" height="100px" class="img-circle" src="<?php echo $item->icon?>">
-		                    </div>
-		                    <div class="col medium-7">
-		                        <p style="font-size: 20px"><a href=""> <?php echo $item->full_name?> </a></p>
-		                        <p><i class="fa fa-edge" aria-hidden="true"></i> <?php echo $exp_type[$item->exp_type]?> <span> <i class="fa fa-language" aria-hidden="true"></i> <?php echo $item->address?></span></p>
-		                        <p>
-		                            <?php echo $item->excerpt?>
-		                        </p>
-		                    </div>
-		                    <div class="col medium-4">
-		                        <div class="row lead evaluation">
-		                            <div id="colorstar" class="starrr ratable" ></div>
-		                            <!--                                <span id="count">0</span> sao - <span id="meaning"> </span>-->
-		                            <div class="priceBox">
-		                                <p><?php echo $item->salary?>vnd/giờ</p>
-		                            </div>
-		
-		                        </div>
-		                        <a href="<?php echo site_url().'?view=orderbook&teacher_id='.$item->id?>" class="btn btn-success">Đăng ký học</a>
-		                    </div>
-		                </div>
+               		<?php echo HBHelper::renderLayout('teacher-list', $item)?>
                <?php }?>
             </div>
 
@@ -102,29 +81,7 @@ foreach($exp_type as $e=>$type){
 			foreach($exp_type as $e=>$type){?>
 				<div id="menu<?php echo $e?>" class="tab-pane fade">
 					<?php foreach($number_result[$e] as $item){?>
-						 <div class="row resultItem">
-		                    <div class="col medium-1">
-		                        <img width="100px" height="100px" class="img-circle" src="<?php echo $item->icon?>">
-		                    </div>
-		                    <div class="col medium-7">
-		                        <p style="font-size: 20px"><a href=""> <?php echo $item->full_name?> </a></p>
-		                        <p><i class="fa fa-edge" aria-hidden="true"></i> <?php echo $exp_type[$item->exp_type]?> <span> <i class="fa fa-language" aria-hidden="true"></i> <?php echo $item->address?></span></p>
-		                        <p>
-		                            <?php echo $item->excerpt?>
-		                        </p>
-		                    </div>
-		                    <div class="col medium-4">
-		                        <div class="row lead evaluation">
-		                            <div id="colorstar" class="starrr ratable" ></div>
-		                            <!--                                <span id="count">0</span> sao - <span id="meaning"> </span>-->
-		                            <div class="priceBox">
-		                                <p><?php echo $item->salary?>vnd/giờ</p>
-		                            </div>
-		
-		                        </div>
-		                        <a href="<?php echo site_url().'?view=orderbook&teacher_id='.$item->id?>" class="btn btn-success">Đăng ký học</a>
-		                    </div>
-		                </div>
+						 <?php echo HBHelper::renderLayout('teacher-list', $item)?>
 					<?php }?>
 				</div>
 								
@@ -390,4 +347,4 @@ foreach($exp_type as $e=>$type){
 
 
 </script>
-</form>
+
