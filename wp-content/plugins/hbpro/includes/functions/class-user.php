@@ -26,6 +26,14 @@ class HBActionUser extends HBAction{
 		$data = $post['teacher'];
         $data['created'] = current_time( 'mysql' );
 
+        $users_info = get_user_by('login', $post['username']);
+
+        if (($users_info->ID)){
+            hb_enqueue_message('Tên đăng nhập đã được sử dụng');
+            wp_safe_redirect(site_url("dang-ky-lam-gia-su"));
+            exit();
+        }
+
         if ($post['password'] != $post['re_password']){
             wp_safe_redirect(site_url("dang-ky-lam-gia-su"));
             exit();
@@ -44,9 +52,42 @@ class HBActionUser extends HBAction{
                 hb_enqueue_message('Đăng kí thất bại, bạn vui lòng đăng kí lại hoặc liên hệ đội hỗ trợ!');
             }
         }
-		wp_safe_redirect(site_url('?view=login'));
+		wp_safe_redirect(site_url('dang-nhap'));
 		exit;
-	}	
+	}
+
+	function updateProfile(){
+        global $wpdb;
+
+        if ( empty( $_POST['hb_meta_nonce'] ) || ! wp_verify_nonce( $_POST['hb_meta_nonce'], 'hb_action' ) ) {
+//            wp_die('invalid request');
+        }
+        $post = $this->input->getPost();
+        $data = $post['teacher'];
+
+        $users_info = get_user_by('login', $data['username']);
+
+        if (!$users_info->ID){
+            hb_enqueue_message('Lỗi, vui lòng thử lại sau');
+            wp_safe_redirect(site_url("tai-khoan"));
+            exit();
+        }
+
+        unset($data['username']);
+        unset($data['email']);
+
+        $result = $wpdb->update("{$wpdb->prefix}hbpro_users", $data, array('user_id'=>$users_info->ID));
+
+        if ($result){
+            hb_enqueue_message('Cập nhật thành công');
+            wp_safe_redirect(site_url("tai-khoan"));
+            exit();
+        }else{
+            hb_enqueue_message('Cập nhật thất bại');
+            wp_safe_redirect(site_url("tai-khoan"));
+            exit();
+        }
+    }
 	
 	//register user
 	function register(){ 

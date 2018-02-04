@@ -23,6 +23,7 @@ defined('ABSPATH') or die('Restricted access');
 		<table class="wp-list-table widefat fixed striped posts">
 			<thead>
 				<tr>
+					<th width="5%">#</th>
 					<th>Họ tên</th>
 					<th>Số điện thoại</th>
 					<th>Email</th>
@@ -33,7 +34,8 @@ defined('ABSPATH') or die('Restricted access');
 			<tbody>
 				<?php foreach ($this->items as $item){?>
 					<tr>
-						<td><a href="<?php echo admin_url('admin.php?page=hb_dashboard&layout=edit&id='.$item->id)?>"><?php echo $item->full_name ?></a></a></td>
+                        <td><input type="checkbox" name="id"  value="<?php echo $item->id; ?>" /></td>
+						<td><a href="<?php echo admin_url('admin.php?page=hb_dashboard&layout=edit&id='.$item->id)?>"><?php echo $item->name ?></a></a></td>
 						<td><?php echo $item->mobile;?></td>
 						<td><?php echo $item->email;?></td>
 						<td><?php echo $item->address;?></td>
