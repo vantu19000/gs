@@ -16,7 +16,7 @@ class HB_Template_Loader {
 	 * Hook in methods.
 	 */
 	public static function init() {
-		add_filter( 'template_include', array( __CLASS__, 'template_loader' ) );
+		add_filter( 'template_include', array( __CLASS__, 'template_loader' ));
 	}
 
 	/**
@@ -30,41 +30,34 @@ class HB_Template_Loader {
 	 */
 	public static function template_loader( $template ) {
 		$file = '';
-		//echo '<pre>';
 		$path_info = substr($_SERVER['PHP_SELF'], 0, -9);
-		//echo '<pre>'.$path_info.'</pre>';
-		//echo $_SERVER ['REQUEST_URI'];
-		$url = substr($_SERVER ['REQUEST_URI'],strlen($path_info)); //str_replace($path_info,'',$_SERVER ['REQUEST_URI']);
-		//print_r($url);
+		$url = substr($_SERVER ['REQUEST_URI'],strlen($path_info));		
 		$url = explode('/', $url);
-		//print_r($_SERVER['PHP_SELF']);
-		//print_r($url);
-		//	die();
-		switch ($url[0]){
+		$query = $url[0];
+		
+		$end = strpos($query, "?");
+		if($end){
+			$query = substr($query, 0,$end);
+		}else{
+			$query = substr($query, 0);
+		}
+		
+		switch ($query){
 			case 'thong-bao':
 				$file='thong-bao.php';
 				break;
 			case 'ket-qua-tim-kiem';
-			
-				//add_filter('wp_title', array( __CLASS__, 'get_title' ));
 				$file='result.php';
 				break;
 		}
 		
 		if ( $file ) {
 			$find = self::getRoot($file);
-			$template = $find;locate_template($find);
+			$template = $find;
 		}
-// 		debug($find);
-// 		debug($template);
-		
-// 		die;
 		return $template;
 	}
 	
-	function get_title(){
-		return 'Kết quả tìm kiếm';
-	}
 	
 	public static function getRoot($file_name){
 		$path = get_template_directory().'/hbpro/'.$file_name;

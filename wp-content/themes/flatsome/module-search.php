@@ -5,7 +5,6 @@
  * @package flatsome
  */
 
-$placeholder = __( 'Search', 'woocommerce' ).'&hellip;';
 // if(get_theme_mod('search_placeholder')) $placeholder = get_theme_mod('search_placeholder');
 HBImporter::helper('params','html');
 $input = HBFactory::getInput();
@@ -21,19 +20,6 @@ array_unshift($subject_types, (object)array('value'=>'','text'=>'------ Chọn m
 $districts = HBParams::get_districts();
 array_unshift($districts, (object)array('matp'=>'','name'=>'------ Chọn thành phố -----'));
 
-
-HBImporter::model('teacher');
-$model = new HBModelTeacher();
-$items = $model->getItems();
-
-$exp_type = HBParams::get_exp_type();
-$total= count($items);
-$number_result = array();
-// debug($items);die;
-foreach($exp_type as $e=>$type){
-	$number_result[$e] = array_filter($items,function($obj) use ($e) {return $obj->exp_type==$e;});
-}
-// debug($class_types);
 ?>
 
 

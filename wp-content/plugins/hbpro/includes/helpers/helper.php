@@ -155,13 +155,18 @@ class HBHelper
 		return $string;
 	}
 
-	function sendMail($to, $subject, $body , $headers = null, $attachments = null)
+	static function sendMail($to, $subject, $body , $headers = null, $attachments = null,$from_name=null,$from_email=null,$cc=null)
 	{
 		if(!$header){
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			//$headers[] = 'From: Me Myself <me@example.net>';
 			//$headers[] = 'Cc: John Q Codex <jqc@wordpress.org>';
 			//$headers[] = 'Cc: iluvwp@wordpress.org'; // note you can just use a simple email address
+		}else{
+			$headers[] = 'Content-Type: text/html; charset=UTF-8';			
+		}
+		if($from_name){
+			$headers[] = "From: {$from_name} <{$from_email}>";
 		}
 		
 		return wp_mail( $to, $subject, $body, $headers, $attachments );

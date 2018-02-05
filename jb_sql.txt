@@ -73,3 +73,5 @@ alter table #__hbpro_users add excerpt varchar(700) not null
 alter table #__hbpro_users modify salary int(11) not null;
 04/02/2018 23:37:12: 
 alter table #__hbpro_rating add created_by int(11) not null;
+05/02/2018 10:16:34: 
+alter table #__hbpro_rating add teacher_id int(11) not null

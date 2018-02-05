@@ -383,5 +383,36 @@ class HBActionUser extends HBAction{
 		echo json_encode(array('status'=>$check));exit;
 	}
 	
+	function ajax_voting(){
+		$user = wp_get_current_user();
+// 		debug($user);die;
+		if(!$user->ID){
+			echo json_encode(array('status'=>0,'msg'=>'Vui lòng đăng nhập để bình chọn'));
+		}else{			
+			$teacher = $this->input->getInt('teacher_id');			
+			if($teacher){
+				global $wpdb;
+				$wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$user->ID}");
+				$insert = $wpdb->insert("{$wpdb->prefix}hbpro_rating", array(
+						'teacher_id'=>$teacher,
+						'user_id' => $user->ID,
+						'star_number' => $this->input->getInt('star_number',0),
+						'notes'=>$this->input->getString('notes',''),
+						'created'=> date("Y-m-d H:i:s")
+				));
+				if($insert){
+					echo json_encode(array('status'=>1,'msg'=>'Thành công'));
+				}else{
+					echo json_encode(array('status'=>0,'msg'=>'Lỗi'));
+				}
+				
+			}else{
+				echo json_encode(array('status'=>0,'msg'=>'Vui lòng chọn giáo viên'));
+			}
+			
+		}
+		exit;
+	}
+	
 	
 }

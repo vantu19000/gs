@@ -275,19 +275,25 @@ class HBHtml
 		<?php
 	}
 		
-	static function star_rating($number){
+	static function star_rating($number,$volume=null,$js=true){
 		if(!isset(self::$star_lib)){
 			self::$star_lib = 1;
-			echo self::enqueueScript('jQuery(document).ready(function($){
-				$(".starrr").starrr({
-				  rating: $(this).attr("rating")
-				});
-			});');
+			if($js){
+				echo self::enqueueScript('jQuery(document).ready(function($){
+					$(".starrr").starrr({
+					  rating: $(this).attr("rating")
+					});
+				});');
+			}
+			
 			echo "<style>.starrr {display: inline-block; }.starrr a {font-size: 16px;padding: 0 1px;cursor: pointer;color: #FFD119;text-decoration: none; }</style>";
 		}
 		$number_int = ceil($number);
 		$number_haft = abs(($number-$number_int)) > 0.5 ? '.5' : '';
-		return "<div class='starrr' rating='{$number_int}{$number_haft}'></div>";
+		if($volume){
+			$volume = "<span class='star-volume'> ( {$volume} ) </span>";
+		}
+		return "<div class='starrr' rating='{$number_int}{$number_haft}'></div>{$volume}";
 	}
 			
 
