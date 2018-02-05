@@ -8,14 +8,14 @@ class HBActionOrders extends hbaction{
 		//check captcha
 		$post = $this->input->getPost();
 		$data = $post['data'];
-		
+
 		$data['created'] = current_time( 'mysql' );
 		if($this->input->get('id')){				
-			$result = $wpdb->update("{$wpdb->prefix}hbpro_users", $data, array('id'=>$this->input->get('id')));
-			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$this->input->get('id')));
+			$result = $wpdb->update("{$wpdb->prefix}hbpro_orders", $data, array('id'=>$this->input->get('id')));
+			wp_safe_redirect(admin_url('admin.php?page=hb_dashboard&layout=edit&id='.$this->input->get('id')));
 		}else{
-			$result = $wpdb->insert("{$wpdb->prefix}hbpro_users", $data);
-			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$wpdb->insert_id));
+			$result = $wpdb->insert("{$wpdb->prefix}hbpro_orders", $data);
+			wp_safe_redirect(admin_url('admin.php?page=hb_dashboard&layout=edit&id='.$wpdb->insert_id));
 		}
 		
 		
@@ -83,15 +83,15 @@ class HBActionOrders extends hbaction{
 	}
 	
 	function delete(){
-		$dates 			= $_POST['dates'];
-		$route_id 		= $_POST['route_id'];
-	
-		if (count($dates)) {
-			global $wpdb;
-			$wpdb->get_results("DELETE FROM {$wpdb->prefix}HB_routerate WHERE route_id=$route_id AND date IN ('".implode("','", $dates)."')");
-		}
-		
-		wp_redirect(admin_url('admin.php?page=HB_rate&route_id='.$route_id));		
+
+	    $data = $_POST['id'];
+
+	    foreach ($data AS $id){
+            global $wpdb;
+            $wpdb->delete("{$wpdb->prefix}hbpro_orders", array('id' => $id));
+        }
+
+		wp_redirect(admin_url('admin.php?page=hb_dashboard'));
 		return;
 	
 	}
