@@ -193,8 +193,8 @@ public function runSql(){
 		
 		
 		if ((strpos($sql_strs,'select')) !== false || (strpos($sql_strs,'SELECT')) !== false || (strpos($sql_strs,'show')) !== false){
-			
-			$this->dump($wpdb->get_results($sql_strs)) ;
+			$sql = str_replace('#__', $wpdb->prefix, $sql_strs);
+			$this->dump($wpdb->get_results($sql)) ;
 		}
 		$this->debugSql($sql_str);
 		$this->show();

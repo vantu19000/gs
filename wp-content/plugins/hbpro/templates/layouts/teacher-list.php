@@ -1,4 +1,6 @@
-<?php $exp_type = HBParams::get_exp_type();
+<?php 
+HBImporter::helper('currency');
+$exp_type = HBParams::get_exp_type();
 $order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
 ?>
 <div class="row resultItem">
@@ -25,7 +27,7 @@ $order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
 			</div>
 
 			<div class="priceBox">
-				<p><?php echo $displayData->salary?>vnd/giờ</p>
+				<p><?php echo HBCurrencyHelper::displayPrice($displayData->salary)?>/giờ</p>
 			</div>
 
 		</div>

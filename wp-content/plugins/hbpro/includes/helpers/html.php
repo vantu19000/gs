@@ -280,8 +280,10 @@ class HBHtml
 			self::$star_lib = 1;
 			if($js){
 				echo self::enqueueScript('jQuery(document).ready(function($){
-					$(".starrr").starrr({
-					  rating: $(this).attr("rating")
+					$(".starrr").each(function(){
+						$(this).starrr({
+						  rating: $(this).attr("rating")
+						});
 					});
 				});');
 			}

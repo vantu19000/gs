@@ -98,17 +98,19 @@ class HbModel
 		}
 		$sql = trim($sql,',').';';
 		$datas=null;unset($datas);
-// 		return $this->run_query($sql);
-		$this->setQuery($sql);
+ 		return $this->run_query($sql);
+		//$this->setQuery($sql);
 // 		echo $sql;die;
-		$sql=null;unset($sql);
+		//$sql=null;unset($sql);
 		
-		return $this->execute();
+		//return $this->execute();
 		
 	}
 	
 	private function run_query($query){
 // 		echo $query;
+		global $wpdb;
+		return $wpdb->query($query);
 		$con = $this->get_connection();
 		$check = mysqli_query($query);
 		mysqli_close($con);

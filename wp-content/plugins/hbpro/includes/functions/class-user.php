@@ -384,22 +384,29 @@ class HBActionUser extends HBAction{
 	}
 	
 	function ajax_voting(){
-		$user = wp_get_current_user();
-// 		debug($user);die;
-		if(!$user->ID){
+		//echo json_encode($_SERVER);
+		$current_user_id = get_your_current_user_id();
+		if(!$current_user_id){
 			echo json_encode(array('status'=>0,'msg'=>'Vui lòng đăng nhập để bình chọn'));
 		}else{			
 			$teacher = $this->input->getInt('teacher_id');			
 			if($teacher){
 				global $wpdb;
-				$wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$user->ID}");
-				$insert = $wpdb->insert("{$wpdb->prefix}hbpro_rating", array(
+				$wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$current_user_id}");
+				
+				//HBImporter::libraries('model');
+				//$model = new HbModel('#__hbpro_rating','id');
+				$data = array(
 						'teacher_id'=>$teacher,
-						'user_id' => $user->ID,
+						'user_id' => $current_user_id,
 						'star_number' => $this->input->getInt('star_number',0),
 						'notes'=>$this->input->getString('notes',''),
 						'created'=> date("Y-m-d H:i:s")
-				));
+				);
+				$insert = $wpdb->insert("{$wpdb->prefix}hbpro_rating", $data);
+				//echo $wpdb->last_query;
+				//echo $wpdb->last_error ;die;
+				//$model->save($data);
 				if($insert){
 					echo json_encode(array('status'=>1,'msg'=>'Thành công'));
 				}else{

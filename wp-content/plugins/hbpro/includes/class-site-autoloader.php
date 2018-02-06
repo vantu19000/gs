@@ -26,12 +26,13 @@ class HB_Site_Autoload{
      * Execute admin-post function via url request
      */
     function execute_action(){
+		//do_action('init');
         $input = HBFactory::getInput();
 
         $view= $input->get('view');
         if($view){
             include HB_PATH.'templates/'.$view.'.php';
-            die;
+            exit;
         }
         $request_action = $input->get('hbaction');
         if($request_action){

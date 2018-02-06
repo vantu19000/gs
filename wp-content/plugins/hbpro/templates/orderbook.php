@@ -11,7 +11,7 @@ get_header();
 HBImporter::model('teacher');
 $model = new HBModelTeacher();
 $item = $model->getItem(HBFactory::getInput()->get('teacher_id'));
-HBImporter::helper('params');
+HBImporter::helper('params','currency');
 $exp_type = HBParams::get_exp_type();
 
 //echo "<pre>";
@@ -38,7 +38,7 @@ $exp_type = HBParams::get_exp_type();
                     <p><?php echo $item->excerpt?> </p>
 					
 					<div class="priceBox">
-                            <p><i class="fa fa-money" aria-hidden="true"></i> Mức lương mong muốn: <?php echo $item->salary?>vnd/giờ</p>
+                            <p><i class="fa fa-money" aria-hidden="true"></i> Mức lương mong muốn: <?php echo HBCurrencyHelper::displayPrice($item->salary)?>/giờ</p>
                         </div>
 
 

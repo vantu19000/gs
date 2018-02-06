@@ -25,7 +25,7 @@ class HBModelTeacher {
 		}
 		if($id){
 			$query = "Select u.*,AVG(r.star_number) as star_number,count(r.id) as star_volume from {$wpdb->prefix}hbpro_users as u
-			LEFT JOIN {$wpdb->prefix}hbpro_rating as r ON r.user_id=u.id WHERE u.id = $id";
+			LEFT JOIN {$wpdb->prefix}hbpro_rating as r ON r.teacher_id=u.id WHERE u.id = $id";
 			
 			$result =  $wpdb->get_results($query);
 			return reset($result);

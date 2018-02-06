@@ -28,14 +28,15 @@ CREATE TABLE IF NOT EXISTS `#__hbpro_users` (
 01/02/2018 13:40:56: 
 CREATE TABLE IF NOT EXISTS `#__hbpro_rating` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT null,
   `created` datetime NOT NULL,
   `star_number` tinyint(1) not null default 0,
   `email` varchar(200) NOT NULL,
-  `notes` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `status` tinyint(1) not null,
+  `notes` varchar(1000) NOT NULL default '',
+  `status` tinyint(1) not null default 0,
+  `teacher_id` int(11) not null,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 
 01/02/2018 13:42:11: 
 CREATE TABLE IF NOT EXISTS `#__hbpro_subject` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -65,13 +66,9 @@ CREATE TABLE IF NOT EXISTS `#__hbpro_orders` (
 ALTER TABLE #__hbpro_orders add email varchar(200) not null, add full_name varchar(200) not null, add mobile varchar(15) not null, add address varchar(1000) not null;
 02/02/2018 00:17:11: 
 ALTER TABLE #__hbpro_orders add order_status varchar(20) not null, add pay_status varchar(20) not null;
-
----MOI them----
 03/02/2018 23:21:05: 
 alter table #__hbpro_users add excerpt varchar(700) not null
 04/02/2018 23:13:38: 
 alter table #__hbpro_users modify salary int(11) not null;
-04/02/2018 23:37:12: 
-alter table #__hbpro_rating add created_by int(11) not null;
-05/02/2018 10:16:34: 
-alter table #__hbpro_rating add teacher_id int(11) not null
+
+---Moi them---

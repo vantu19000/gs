@@ -140,4 +140,13 @@ function hb_set_post_view($postID) {// hàm này dùng để set và update số
         update_post_meta($postID, $count_key, $count); // update count
     }
 }
+//for wordpress verion < 3.4
+add_action('init', 'set_your_current_user_id');
+function get_your_current_user_id(){
+    return $_SESSION['your_current_user_id'];
+}
 
+function set_your_current_user_id(){
+        $your_current_user_id= get_current_user_id();
+        $_SESSION['your_current_user_id'] =  $your_current_user_id;
+}

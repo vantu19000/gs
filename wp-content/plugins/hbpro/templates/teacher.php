@@ -6,7 +6,7 @@
  *
  * @package woafun
  */
-
+global $current_user;
 get_header(); 
 HBImporter::model('teacher');
 HBImporter::helper('params','currency');
@@ -33,7 +33,7 @@ $exp_type = HBParams::get_exp_type();
                     <p>Địa chỉ:<?php echo $item->address?></p>
                     <p><?php echo $item->excerpt?> </p>
                     <div class="priceBox">
-                                <p>Mức lương mong muốn: <?php echo HBCurrencyHelper::displayPrice($item->salary)?>đ/giờ</p>
+                                <p>Mức lương mong muốn: <?php echo HBCurrencyHelper::displayPrice($item->salary)?>/giờ</p>
                             </div>
                     <a  href="<?php echo site_url('/?view=orderbook&teacher_id='.$item->id)?>" class="button">Gửi yêu cầu</a>
 			</div>
@@ -48,28 +48,29 @@ $exp_type = HBParams::get_exp_type();
 </div><!-- #primary -->
 <script>
 	jQuery(document).ready(function($){
-		var rate = $('.starrr').attr("rating");
-		console.log(rate);
-		$('.starrr').starrr({			
-			rating: rate,//$(this).attr("rating"),
-		  	change: function(e, value){
-			  	
-		  		$.ajax({
-					type: 'POST',
-					url: '<?php echo site_url()?>/index.php?hbaction=user&task=ajax_voting',					
-					data: 'teacher_id=<?php echo $item->id?>&notes='+$('#notes').val()+'&star_number='+value,				 
-					dataType: 'json',
-					beforeSend: function() {						
-					},
-					success : function(result) {
-						if(result.status==1){		
-							return false;
-						}else {
-							alert(result.msg);
+		$('.starrr').each(function(){
+			$(this).starrr({			
+				rating: $(this).attr("rating"),//$(this).attr("rating"),
+				change: function(e, value){
+					
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url()?>/index.php?hbaction=user&task=ajax_voting&current_user=<?php echo $current_user->ID?>&'+ new Date().getTime(),					
+						data: 'teacher_id=<?php echo $item->id?>&notes='+$('#notes').val()+'&star_number='+value,				 
+						dataType: 'json',
+						beforeSend: function() {						
+						},
+						success : function(result) {
+							if(result.status==1){		
+								return false;
+							}else {
+								alert(result.msg);
+								return false;
+							}
 						}
-					}
-				});
-		  	}
+					});
+				}
+			});
 		});
 	});
 </script>
