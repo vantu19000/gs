@@ -30,17 +30,21 @@ class HBActionUser extends HBAction{
 
         if (($users_info->ID)){
             hb_enqueue_message('Tên đăng nhập đã được sử dụng');
-            wp_safe_redirect(site_url("dang-ky-lam-gia-su"));
+            wp_safe_redirect(site_url("dang-ki-giang-vien"));
             exit();
         }
 
         if ($post['password'] != $post['re_password']){
-            wp_safe_redirect(site_url("dang-ky-lam-gia-su"));
+            wp_safe_redirect(site_url("dang-ki-giang-vien"));
             exit();
         }
-		$new_user = wp_create_user($post['username'], $data['email'], wp_hash_password($post['password']));
+        $new_user = wp_insert_user(array(
+            'user_login' => $post['username'],
+            'user_pass' => $post['password'],
+            'user_email' => $data['email'],
+        ));
 
-		if ($new_user){
+        if ($new_user){
 
             $users_info = get_user_by('login', $post['username']);
             $data['user_id'] = $users_info->id;
@@ -52,8 +56,8 @@ class HBActionUser extends HBAction{
                 hb_enqueue_message('Đăng kí thất bại, bạn vui lòng đăng kí lại hoặc liên hệ đội hỗ trợ!');
             }
         }
-		wp_safe_redirect(site_url('dang-nhap'));
-		exit;
+        wp_safe_redirect(site_url('dang-nhap'));
+        exit;
 	}
 
 	function updateProfile(){
@@ -384,8 +388,9 @@ class HBActionUser extends HBAction{
 	}
 	
 	function ajax_voting(){
+	
 		$user = wp_get_current_user();
-// 		debug($user);die;
+		//echo json_encode($user);die;
 		if(!$user->ID){
 			echo json_encode(array('status'=>0,'msg'=>'Vui lòng đăng nhập để bình chọn'));
 		}else{			
@@ -393,7 +398,10 @@ class HBActionUser extends HBAction{
 			if($teacher){
 				global $wpdb;
 				$wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$user->ID}");
-				$insert = $wpdb->insert("{$wpdb->prefix}hbpro_rating", array(
+				
+				HBImporter::libraries('model');
+				$model = new HbModel('#__hbpro_rating','id');
+				$insert = $model->save(array(
 						'teacher_id'=>$teacher,
 						'user_id' => $user->ID,
 						'star_number' => $this->input->getInt('star_number',0),
