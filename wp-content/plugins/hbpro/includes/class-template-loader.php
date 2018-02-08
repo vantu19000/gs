@@ -48,7 +48,7 @@ class HB_Template_Loader {
 			case 'ket-qua-tim-kiem';
 				$file='result.php';
 				break;
-			case 'giasu':
+			case 'gia-su':
 				$name = $url[1];
 				$id = explode('-', $name);
 				$input = HBFactory::getInput();
