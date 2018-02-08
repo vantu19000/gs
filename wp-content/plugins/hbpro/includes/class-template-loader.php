@@ -33,21 +33,27 @@ class HB_Template_Loader {
 		$path_info = substr($_SERVER['PHP_SELF'], 0, -9);
 		$url = substr($_SERVER ['REQUEST_URI'],strlen($path_info));		
 		$url = explode('/', $url);
-		$query = $url[0];
-		
-		$end = strpos($query, "?");
-		if($end){
-			$query = substr($query, 0,$end);
-		}else{
-			$query = substr($query, 0);
+		foreach($url as &$path){
+			$end = strpos($path, "?");
+			if($end){
+				$path = substr($path, 0,$end);
+			}
 		}
 		
-		switch ($query){
+		
+		switch ($url[0]){
 			case 'thong-bao':
 				$file='thong-bao.php';
 				break;
 			case 'ket-qua-tim-kiem';
 				$file='result.php';
+				break;
+			case 'giasu':
+				$name = $url[1];
+				$id = explode('-', $name);
+				$input = HBFactory::getInput();
+				$input->set('teacher_id', end($id));
+				$file = 'teacher.php';
 				break;
 		}
 		

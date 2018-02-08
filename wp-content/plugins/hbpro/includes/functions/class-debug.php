@@ -537,4 +537,21 @@ public function runRestore(){
 		echo 'DONE';
 	  }
 	}
+	
+	function convert_teacher_name(){
+		global $wpdb;
+		$teachers = $wpdb->get_results('select * from '.$wpdb->prefix.'hbpro_users');
+		foreach($teachers as &$t){
+			$t->alias = HBHelper::translate_eng($t->full_name);
+			$t->alias = str_replace(' ', '-', $t->alias);			
+		}
+		HBImporter::libraries('model');
+		$model = new HbModel('#__hbpro_users', 'id');
+		$check = $model->batch_save($teachers);
+		debug($check);
+		debug($wpdb->last_error);
+		return;
+		
+			
+	}
 }

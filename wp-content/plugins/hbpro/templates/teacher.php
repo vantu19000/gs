@@ -18,6 +18,7 @@ $exp_type = HBParams::get_exp_type();
 	
 <div id="primary" class="content-area bg-gray">
 	<div class="container">
+		<?php if($item->id){?>
 		<center><h2>Thông tin gia sư</h2></center>
 		<div id="main" class="row" style="margin-bottom:10px;">
 			<div class="col medium-6">
@@ -43,6 +44,9 @@ $exp_type = HBParams::get_exp_type();
 			<!-- Review -->
 			<input type="hidden" id="notes"/>
 		</div>
+		<?php }else{?>
+			<center>Không tìm thấy người phù hợp</center>
+		<?php }?>
 	</div>
 	
 </div><!-- #primary -->

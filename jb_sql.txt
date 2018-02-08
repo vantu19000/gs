@@ -72,3 +72,11 @@ alter table #__hbpro_users add excerpt varchar(700) not null
 alter table #__hbpro_users modify salary int(11) not null;
 
 ---Moi them---
+08/02/2018 09:46:01: 
+alter table #__hbpro_teacher add alias varchar(100) not null;
+08/02/2018 09:46:15: 
+alter table #__hbpro_users add alias varchar(100) not null
+08/02/2018 10:18:39: 
+alter table #__hbpro_users change desc description text not null;
+08/02/2018 10:19:06: 
+alter table #__hbpro_users change `desc` description text not null

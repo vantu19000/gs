@@ -10,6 +10,7 @@ class HBActionTeacher extends hbaction{
 		$data = $post['data'];
 		
 		$data['created'] = current_time( 'mysql' );
+// 		$data['alias'] = HBHelper::convert_to_alias($data['full_name']);
 		if($this->input->get('id')){				
 			$result = $wpdb->update("{$wpdb->prefix}hbpro_users", $data, array('id'=>$this->input->get('id')));
 			wp_safe_redirect(admin_url('admin.php?page=teacher&layout=edit&id='.$this->input->get('id')));

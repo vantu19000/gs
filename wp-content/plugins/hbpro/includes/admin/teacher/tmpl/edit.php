@@ -52,6 +52,13 @@
 				</div>
 			</div>
 			
+			<div class="form-group row">
+				<label class="col-xs-3 col-form-label">Chi tiết<span class="text-danger">*</span></label>
+				<div class="col-xs-9">
+					<textarea class="form-control input-medium required" required value="<?php echo $this->item->description?>" type="text" id="parent_address" name="data[description]" rows="6"></textarea>
+				</div>
+			</div>
+			
 			<input type="hidden" value="<?php echo $this->input->get('id')?>" name="id"/>
 			
 			
