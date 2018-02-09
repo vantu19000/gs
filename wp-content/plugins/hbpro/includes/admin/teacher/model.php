@@ -30,8 +30,11 @@ class HBModelTeacher {
 			$result =  $wpdb->get_results($query);
 			return reset($result);
 		}
+		
+		if(!empty($_SESSION['teacher']['data'])){
+			return $_SESSION['teacher']['data'];
+		}
 		return false;
 		
 	} 
-	
 }

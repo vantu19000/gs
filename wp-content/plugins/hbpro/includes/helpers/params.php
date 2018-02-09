@@ -62,8 +62,9 @@ class HBParams
 	
 	static function get_exp_type(){
 		return array(
-			'0' => 'Giáo viên chuyên nghiệp',
-			'1' => 'Gia sư cộng đồng'
+			'0' => 'Giáo viên',
+			'1' => 'Sinh viên',
+            '2' => 'Khác'
 		);
 	}
 	
@@ -79,9 +80,9 @@ class HBParams
 	
 	static function get_degree_type(){
 		return array(
-				'1' => 'Cao đẳng',
-				'2' => 'Đại học',
-				'3' => 'Thạc sĩ'
+				'1' => 'Đại học',
+				'2' => 'Thạc sĩ',
+				'3' => 'Khác'
 		);
 	}
 	
@@ -108,13 +109,22 @@ class HBParams
 	}
 	static function get_gender(){
 		return array(
-				'F'=>"Nam",
-				'M'=>"Nữ"
+				'M'=>"Nam",
+				'F'=>"Nữ"
 		);
 	}
+
+	static function get_districts_by_id($id){
+        global $wpdb;
+        return $wpdb->get_results('select * from devvn_tinhthanhpho WHERE matp = ' . $id);
+    }
+
+    static function get_provinces_by_id($id){
+        global $wpdb;
+        return $wpdb->get_results('select * from devvn_quanhuyen WHERE maqh = ' . $id);
+    }
 	
-	
-	
+
 	static function get_pay_method(){
 		AImporter::helper('file');
 		$files = FileHelper::getFiles(JPATH_ROOT.'/plugins/bookpro/');

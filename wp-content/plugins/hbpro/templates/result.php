@@ -7,7 +7,6 @@
  * @package woafun
  */
 
-
 get_header(); 
 HBImporter::helper('params','html');
 $input = HBFactory::getInput();
@@ -20,18 +19,37 @@ $query = "Select u.*,AVG(r.star_number) as star_number,count(r.id) as star_volum
 LEFT JOIN {$wpdb->prefix}hbpro_rating as r ON r.teacher_id=u.id WHERE u.status=1";
 $file_query = array('subject_id','exp_type','class_type','degree_type','district_id','province_id');
 $where = array();
-foreach($file_query as $key){
-	if($input->getInt($key)){
-		$where[] = 'u.'.$key.' ='.$input->getInt($key);
-	}
-}
+//foreach($file_query as $key){
+    if ($input->getInt('province_id')){
+        $where[] = 'u.province_id LIKE "%' .$input->get("province_id") .'%"';
+    }
+    if ($input->getInt('class_type')){
+        $where[] = 'u.class_type LIKE "%' . $input->get("class_type") .'%"';
+    }
+    if ($input->getInt("subject_type")){
+        $where[] = 'u.subject_id LIKE "%' . $input->get("subject_type") .'%"';
+    }
+    if ($input->getInt("district_id")){
+        $where[] = 'u.district_id = ' . $input->get("district_id");
+    }
+    if ($input->getInt("degree_type")){
+        $where[] = 'u.degree_type = ' . $input->get("degree_type");
+    }
+//	if($input->getInt($key)){
+//		$where[] = 'u.'.$key.' ='.$input->getInt($key);
+//	}
+//}
+//if ($input->get("province_id")){
+//    $where[] = 'u.province_id LIKE `#' .$input->get("province_id") ."%`";
+//}
 if($input->get('gender')){
 	$where[] = 'u.gender ="'.$input->get('gender').'"';
 }
 if(!empty($where)){
-	$query.=' '.implode(' AND ', $where);
+	$query.=' AND '.implode(' AND ', $where);
 }
 $query .= ' GROUP BY u.id';
+//echo $query;
 $items = $wpdb->get_results($query);
 
 $total= count($items);

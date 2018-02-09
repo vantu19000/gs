@@ -269,11 +269,6 @@ class HBHelper
 		$str = preg_replace("/(Đ)/", "D", $str);
 		return $str;
 	}
-	
-	public static function convert_to_alias($str){
-		$str = self::translate_eng($str);
-		return preg_replace('/[^A-Za-z0-9\-]/', '-', $str);
-	}
 
 }
 
