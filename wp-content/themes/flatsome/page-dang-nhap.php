@@ -37,10 +37,10 @@ get_header();
 							<div class="clearfix"></div>
 							<a href="<?php echo site_url('wp-login.php?action=lostpassword')?>">Quên mật khẩu</a>
 							<div class="clearfix"></div>
-							<a href="<?php echo site_url('dang-ki-tai-khoan')?>">Đăng kí tài khoản mới</a>
+							<a href="<?php echo site_url('dang-ki-gia-su')?>">Đăng kí tài khoản mới</a>
 						</div>
 						<?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
-						<center><button type="submit" class="btn btn-primary btn-lg">Đăng nhập</button></center>
+						<center><button type="submit" class="button">Đăng nhập</button></center>
 					</form>
 			</div>
 			<div class="col-md-3"></div>

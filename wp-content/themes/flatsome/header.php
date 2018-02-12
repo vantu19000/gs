@@ -12,6 +12,9 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- ============================== -->
 	<?php wp_head(); ?>
+
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"Blog","url":"https://giasutriviet.edu.vn/"}</script><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"giasutriviet","url":"https://giasutriviet.edu.vn/","sameAs":["https://www.facebook.com/TrungTamGiaSuTriViet/"]}</script>
+
 </head>
 
 <body <?php body_class(); // Body classes is added from inc/helpers-frontend.php ?>>
@@ -19,7 +22,6 @@
 
 
 
-839777652
 <!-- ===================================== -->
 <div id="fb-root"></div>
 <script>(function(d, s, id) {

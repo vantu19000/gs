@@ -101,6 +101,7 @@ get_header();
                         </div>
 
                         <input type="checkbox" id="term" required/> <label for="term"> Tôi đã đọc và chấp nhận tất cả <a targer="_blank" href="<?php echo site_url('dieu-khoan')?>">điều khoản</a>.</label>
+
                         <div class="clearfix"></div>
 
                     </div>
