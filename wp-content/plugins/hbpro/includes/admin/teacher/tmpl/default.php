@@ -11,30 +11,14 @@
 defined('ABSPATH') or die('Restricted access');
 ?>
 <div class="wrap">
-	<h1>Quản lí gia sư <a href="<?php echo admin_url('admin.php?page=teacher&layout=edit')?>" class="page-title-action" >Thêm giáo viên</a></h1>
-	
-	<div class="tablenav top">
-		<div class="alignleft actions bulkactions">
-					<label for="bulk-action-selector-top" class="screen-reader-text">Lựa chọn thao tác hàng loạt</label><select name="action" id="bulk-action-selector-top">
-		<option value="-1">Tác vụ</option>
-			<option value="edit" class="hide-if-no-js">Chỉnh sửa</option>
-			<option value="trash">Bỏ vào thùng rác</option>
-		</select>
-		<input id="doaction" class="button action" value="Áp dụng" type="submit">
-				</div>
-		<div class="tablenav-pages one-page"><span class="displaying-num"><?php echo count($this->items) ?> mục</span>
-		<span class="pagination-links"><span class="tablenav-pages-navspan" aria-hidden="true">«</span>
-		<span class="tablenav-pages-navspan" aria-hidden="true">‹</span>
-		<span class="paging-input"><label for="current-page-selector" class="screen-reader-text">Trang hiện tại</label><input class="current-page" id="current-page-selector" name="paged" value="1" size="1" aria-describedby="table-paging" type="text"><span class="tablenav-paging-text"> trên <span class="total-pages">1</span></span></span>
-		<span class="tablenav-pages-navspan" aria-hidden="true">›</span>
-		<span class="tablenav-pages-navspan" aria-hidden="true">»</span></span></div>
+	<h1>Quản lí gia sư <a href="https://giasutriviet.edu.vn/dang-ki-giang-vien" class="page-title-action" target="_blank" >Thêm gia sư</a></h1>
 
-			<br class="clear">
-	</div>
-		
-		
+    <div class="tablenav top">
+        <input class="button action" value="Xóa" type="button" onclick="return deleetes()">
+    </div>
+
 	<div>
-		<form>
+		<form id="formteacher" method="post">
 			<table class="wp-list-table widefat fixed striped posts">
 				<thead>
 					<tr>
@@ -49,8 +33,8 @@ defined('ABSPATH') or die('Restricted access');
 				<tbody>
 					<?php foreach ($this->items as $item){?>
 						<tr>
-							<td><input type="checkbox" name="id"  value="<?php echo $item->id; ?>" /></td>
-							<td><?php echo $item->full_name;?></td>
+							<td><input type="checkbox" name="id[]"  value="<?php echo $item->id; ?>" /></td>
+							<td><a href="admin.php?page=teacher&layout=edit&id=<?php echo $item->id; ?>"> <?php echo $item->full_name;?></a></td>
 							<td><?php echo $item->mobile;?></td>
 							<td><?php echo $item->email;?></td>
 							<td><?php echo $item->address;?></td>
@@ -59,6 +43,19 @@ defined('ABSPATH') or die('Restricted access');
 					<?php }?>
 				</tbody>
 			</table>
-		</form>
+
+            <?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
+
+        </form>
 	</div>
 </div>
+
+<script>
+
+    function deleetes(){
+        if (confirm("Bạn chắc chắn muốn xóa?")){
+            document.getElementById('formteacher').action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=teacher&task=delete')?>";
+            document.getElementById("formteacher").submit();
+        }
+    }
+</script>

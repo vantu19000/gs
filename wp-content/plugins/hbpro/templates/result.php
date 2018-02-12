@@ -35,6 +35,9 @@ $where = array();
     if ($input->getInt("degree_type")){
         $where[] = 'u.degree_type = ' . $input->get("degree_type");
     }
+    if ($input->getInt("exp_type")){
+        $where[] = 'u.exp_type = ' . $input->get("exp_type");
+    }
 //	if($input->getInt($key)){
 //		$where[] = 'u.'.$key.' ='.$input->getInt($key);
 //	}

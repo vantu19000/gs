@@ -81,20 +81,22 @@ class HBActionTeacher extends hbaction{
 		die;
 	
 	}
-	
-	function delete(){
-		$dates 			= $_POST['dates'];
-		$route_id 		= $_POST['route_id'];
-	
-		if (count($dates)) {
-			global $wpdb;
-			$wpdb->get_results("DELETE FROM {$wpdb->prefix}HB_routerate WHERE route_id=$route_id AND date IN ('".implode("','", $dates)."')");
-		}
-		
-		wp_redirect(admin_url('admin.php?page=HB_rate&route_id='.$route_id));		
-		return;
-	
-	}
+
+    function delete(){
+
+        global $wpdb;
+        $ids = $_REQUEST['id'];
+
+        foreach ($ids AS $id){
+            $user = $wpdb->query("SELECT * FROM {$wpdb->prefix}hbpro_users WHERE id={$id}");
+            $check = $wpdb->query("DELETE FROM {$wpdb->prefix}hbpro_users WHERE id={$id}");
+            wp_delete_user($user->user_id);
+        }
+
+        wp_redirect(admin_url('admin.php?page=teacher'));
+        return;
+
+    }
 	
 	function deleteratelogs(){
 		$route_id 		= $_REQUEST['route_id'];

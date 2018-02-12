@@ -30,12 +30,12 @@ class HBActionUser extends HBAction{
 
         if (($users_info->ID)){
             hb_enqueue_message('Tên đăng nhập đã được sử dụng');
-            wp_safe_redirect(site_url("dang-ki-giang-vien"));
+            wp_safe_redirect(site_url("dang-ki-gia-su"));
             exit();
         }
 
         if ($post['password'] != $post['re_password']){
-            wp_safe_redirect(site_url("dang-ki-giang-vien"));
+            wp_safe_redirect(site_url("dang-ki-gia-su"));
             exit();
         }
         $new_user = wp_insert_user(array(

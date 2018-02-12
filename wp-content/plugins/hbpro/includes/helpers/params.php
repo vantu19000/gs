@@ -74,7 +74,10 @@ class HBParams
 				'2' => 'Văn',
 				'3' => 'Tiếng Anh',
 				'4' => 'Vật lí',
-				'5' => 'Hóa học'
+				'5' => 'Hóa học',
+                '6' => 'Sinh học',
+                '7' => 'Lịch sử',
+                '8' => 'Địa lý',
 		);
 	}
 	

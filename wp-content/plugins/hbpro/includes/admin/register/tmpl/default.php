@@ -9,22 +9,23 @@
  **/
 // die('ddfdf');
 defined('ABSPATH') or die('Restricted access');
-$nonce = wp_create_nonce( 'hb_action' );
 ?>
 <div class="wrap">
 	<h1>Gia sư mới đăng kí</h1>
 	
 	<div class="tablenav top">
-		<input class="button action" value="Xóa" type="button">
-		<input class="button action" value="Chấp nhận" type="button">
+		<input class="button action" value="Xóa" type="button" onclick="return deleetes()">
+		<input class="button action" value="Chấp nhận" type="button" onclick="return approve()">
 	</div>
 		
 		
 	<div>
-		<form>
+		<form method="POST"
+                action="<?php echo admin_url('admin-post.php?action=hbaction&hbaction=register&task=save')?>" id="formteacher">
 			<table class="wp-list-table widefat fixed striped posts">
 				<thead>
 					<tr>
+                        <th width="5%">#</th>
 						<th>Họ tên</th>
 						<th>Số điện thoại</th>
 						<th>Email</th>
@@ -35,8 +36,9 @@ $nonce = wp_create_nonce( 'hb_action' );
 				<tbody>
 					<?php foreach ($this->items as $item){?>
 						<tr>
-							<td><?php echo $item->name;?></td>
-							<td><?php echo $item->phone;?></td>
+                            <td><input type="checkbox" value="<?php echo $item->id ?>" name="id[]"> </td>
+                            <td><a target="_blank" href="admin.php?page=teacher&layout=edit&id=<?php echo $item->id; ?>"> <?php echo $item->full_name;?></a></td>
+							<td><?php echo $item->mobile;?></td>
 							<td><?php echo $item->email;?></td>
 							<td><?php echo $item->address;?></td>
 							<td><?php echo $item->created;?></td>
@@ -44,6 +46,23 @@ $nonce = wp_create_nonce( 'hb_action' );
 					<?php }?>
 				</tbody>
 			</table>
-		</form>
+
+            <?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
+
+        </form>
 	</div>
 </div>
+
+<script>
+    function approve(){
+        document.getElementById('formteacher').action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=register&task=approve')?>";
+        document.getElementById("formteacher").submit();
+    }
+
+    function deleetes(){
+        if (confirm("Bạn chắc chắn muốn xóa?")){
+            document.getElementById('formteacher').action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=register&task=delete')?>";
+            document.getElementById("formteacher").submit();
+        }
+    }
+</script>

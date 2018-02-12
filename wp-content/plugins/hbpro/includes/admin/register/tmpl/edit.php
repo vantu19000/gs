@@ -2,7 +2,7 @@
 ?>
 
 <div id="primary" class="content-area wrap">
-	<form action="<?php echo admin_url('admin-post.php?action=hbaction&hbaction=teacher&task=save')?>" method="post" style="width:70%;margin: 10px auto;">
+	<form action="<?php echo admin_url('admin-post.php?action=hbaction&hbaction=teacher&task=save')?>" method="post" >
 		<div class="">
 			<div class="form-group row">
 				<label class="col-xs-3 col-form-label">Họ tên<span class="text-danger">*</span></label>

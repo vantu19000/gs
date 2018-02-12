@@ -25,16 +25,13 @@ foreach ($quanhuyen AS $value){
     $quanhuyen2 .= HBParams::get_provinces_by_id($value)[0]->name . ", ";
 }
 
-
 ?>
 
-<style>
-    .img-circle{
+<script>
+    document.title = '<?php echo $item->full_name . " - Trung tâm gia sư trí việt" ?>';
+</script>
 
-    }
-</style>
-	
-<div id="primary" class="content-area bg-gray" style="margin-top: 30px;">
+    <div id="primary" class="content-area bg-gray" style="margin-top: 30px;">
 	<div class="container">
 		<center><h2>Thông tin gia sư</h2></center>
 		<div id="main" class="row" style="margin-bottom:10px;">

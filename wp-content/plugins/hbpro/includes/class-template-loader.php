@@ -45,9 +45,12 @@ class HB_Template_Loader {
 			case 'thong-bao':
 				$file='thong-bao.php';
 				break;
-			case 'ket-qua-tim-kiem';
+			case 'danh-sach-gia-su';
 				$file='result.php';
 				break;
+            case 'danh-sach';
+                $file='result.php';
+                break;
 			case 'gia-su':
 				$name = $url[1];
 				$id = explode('-', $name);
