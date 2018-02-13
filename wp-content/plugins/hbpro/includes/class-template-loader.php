@@ -52,14 +52,15 @@ class HB_Template_Loader {
 			case 'gia-su':
 				$name = $url[1];
 
-				global $title_gia_su;
+				global $title_gia_su, $description_gia_su;
 
                 $title_gia_su = $name;
 				$id = explode('-', $name);
 
-                $tieude = reset( $wpdb->get_results("SELECT full_name FROM {$wpdb->prefix}hbpro_users WHERE id = " . end($id)) );
+                $tieude = reset( $wpdb->get_results("SELECT full_name, excerpt FROM {$wpdb->prefix}hbpro_users WHERE id = " . end($id)) );
 
                 $title_gia_su = $tieude->full_name . ' - ' . get_bloginfo();
+                $description_gia_su = substr ($tieude->excerpt, 0, 240);
 
                 http_response_code (200);
                 $input = HBFactory::getInput();
@@ -67,6 +68,13 @@ class HB_Template_Loader {
 				$file = 'teacher.php';
 
                 add_filter('wpseo_title', 'filter_product_wpseo_title');
+                add_filter('wpseo_metadesc', 'filter_product_wpseo_metadesc');
+
+                function filter_product_wpseo_metadesc() {
+                    global $description_gia_su;
+                    return $description_gia_su;
+                }
+
                 function filter_product_wpseo_title($title) {
                     global $title_gia_su;
                     return $title_gia_su;
