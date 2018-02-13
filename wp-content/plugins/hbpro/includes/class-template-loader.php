@@ -29,6 +29,7 @@ class HB_Template_Loader {
 	 * @return string
 	 */
 	public static function template_loader( $template ) {
+        global $wpdb;
 		$file = '';
 		$path_info = substr($_SERVER['PHP_SELF'], 0, -9);
 		$url = substr($_SERVER ['REQUEST_URI'],strlen($path_info));		
@@ -48,15 +49,29 @@ class HB_Template_Loader {
 			case 'danh-sach-gia-su';
 				$file='result.php';
 				break;
-            case 'danh-sach';
-                $file='result.php';
-                break;
 			case 'gia-su':
 				$name = $url[1];
+
+				global $title_gia_su;
+
+                $title_gia_su = $name;
 				$id = explode('-', $name);
-				$input = HBFactory::getInput();
+
+                $tieude = reset( $wpdb->get_results("SELECT full_name FROM {$wpdb->prefix}hbpro_users WHERE id = " . end($id)) );
+
+                $title_gia_su = $tieude->full_name . ' - ' . get_bloginfo();
+
+                http_response_code (200);
+                $input = HBFactory::getInput();
 				$input->set('teacher_id', end($id));
 				$file = 'teacher.php';
+
+                add_filter('wpseo_title', 'filter_product_wpseo_title');
+                function filter_product_wpseo_title($title) {
+                    global $title_gia_su;
+                    return $title_gia_su;
+                }
+
 				break;
 		}
 		
@@ -66,9 +81,8 @@ class HB_Template_Loader {
 		}
 		return $template;
 	}
-	
-	
-	public static function getRoot($file_name){
+
+    public static function getRoot($file_name){
 		$path = get_template_directory().'/hbpro/'.$file_name;
 		if(file_exists($path)){
 			return $path;

@@ -27,8 +27,10 @@ foreach ($quanhuyen AS $value){
 
 ?>
 
+
+
 <script>
-    document.title = '<?php echo $item->full_name . " - Trung tâm gia sư trí việt" ?>';
+    //document.title = '<?php //echo $item->full_name . " - Trung tâm gia sư trí việt" ?>//';
 </script>
 
     <div id="primary" class="content-area bg-gray" style="margin-top: 30px;">
@@ -43,8 +45,8 @@ foreach ($quanhuyen AS $value){
                         <p style="font-size: 20px">Họ tên: <?php echo $item->full_name?></p>
                         <p>Ngày sinh: <?php echo (new DateTime($item->birthday))->format('d-m-Y')?></p>
                         <p>Giới tính: <?php if($item->gender == 'M'){echo "nam";}else{echo "Nữ";} ?></p>
-                        <p>Điện thoại: <?php echo $item->mobile; ?></p>
-                        <p>Email: <?php echo $item->email; ?></p>
+<!--                        <p>Điện thoại: --><?php //echo $item->mobile; ?><!--</p>-->
+<!--                        <p>Email: --><?php //echo $item->email; ?><!--</p>-->
 <!--                        <p>--><?php //echo $exp_type[$item->exp_type]?><!-- </p>-->
                         <p>Học vấn: <?php echo HBParams::get_degree_type()[$item->degree_type];?></p>
                         <p>Địa chỉ: <?php echo $item->address?></p>
