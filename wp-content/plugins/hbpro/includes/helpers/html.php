@@ -121,7 +121,20 @@ class HBHtml
 		
 		$id = $id ? 'id="'.$id.'"' : '';
 		echo '<input type="text" name="'.$name.'" '.$id.' '.$attr.' value="'.$value.'"/>';
-		$option_str = 'dateFormat: "'.$format.'"';
+		$option_str = '
+		dateFormat: "'.$format.'",
+		shortYearCutoff: 1,
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        changeMonth: true,
+        changeYear: true,
+        maxDate: \'-5Y\',
+        minDate: \'-100Y\',
+        yearRange: "-50Y:-5Y",
+        beforeShowDay: function(date){
+            return [true, "test", "test"];
+        }
+		';
 		if(is_array($options)){
 			$array = array();
 			foreach($options as $k=>$v){
@@ -275,10 +288,10 @@ class HBHtml
 		<?php
 	}
 		
-	static function star_rating($number,$volume=null,$js=true){
+	static function star_rating($number,$volume=null,$js=true, $id = null){
 		if(!isset(self::$star_lib)){
 			self::$star_lib = 1;
-			if($js){
+			if(!$js){
 				echo self::enqueueScript('jQuery(document).ready(function($){
 					$(".starrr").each(function(){
 						$(this).starrr({
@@ -295,7 +308,8 @@ class HBHtml
 		if($volume){
 			$volume = "<span class='star-volume'> ( {$volume} ) </span>";
 		}
-		return "<div class='starrr' rating='{$number_int}{$number_haft}'></div>{$volume}";
+		if ($id) $idx = "id='star".$id."'";
+		return "<div class='starrr' rating='{$number_int}{$number_haft}' ".$idx."></div>{$volume}";
 	}
 			
 

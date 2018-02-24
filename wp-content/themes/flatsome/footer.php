@@ -31,5 +31,6 @@ global $flatsome_opt;
   ga('send', 'pageview');
 
 </script>
+
 </body>
 </html>

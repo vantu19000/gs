@@ -157,7 +157,7 @@ class HBHelper
 
 	static function sendMail($to, $subject, $body , $headers = null, $attachments = null,$from_name=null,$from_email=null,$cc=null)
 	{
-		if(!$header){
+		if(!$headers){
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 			//$headers[] = 'From: Me Myself <me@example.net>';
 			//$headers[] = 'Cc: John Q Codex <jqc@wordpress.org>';
@@ -274,6 +274,22 @@ class HBHelper
 		$str = self::translate_eng($str);
 		return preg_replace('/[^A-Za-z0-9\-]/', '-', $str);
 	}
+
+	public static function generateRandomCode()
+    {
+        $sessionId = "";
+        $chars = "0123456789abcdefghijklmnopqrstwvxyzABCDEFGHIJKLMNOPQRSTWVXYZ";
+        srand((double)microtime()*1000000);
+        $i = 0;
+        $total_length = strlen($chars);
+        while ($i < 6) {
+            $num = rand() % $total_length;
+            $tmp = substr($chars, $num, 1);
+            $sessionId .= $tmp;
+            $i++;
+        }
+        return $sessionId;
+    }
 
 }
 

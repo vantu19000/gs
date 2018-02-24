@@ -31,6 +31,7 @@ defined('ABSPATH') or die('Restricted access');
 						<th>Email</th>
 						<th>Địa chỉ</th>
 						<th>Ngày đăng kí</th>
+                        <th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,6 +43,17 @@ defined('ABSPATH') or die('Restricted access');
 							<td><?php echo $item->email;?></td>
 							<td><?php echo $item->address;?></td>
 							<td><?php echo $item->created;?></td>
+							<td><?php
+                                if ($item->mobile &&
+                                    $item->email && $item->class_type &&
+                                    $item->subject_id && $item->icon && $item->province_id &&
+                                    $item->district_id && $item->gender && $item->time &&
+                                    $item->desc && $item->excerpt && $item->birthday &&
+                                    $item->address && $item->salary
+                                ){
+                                    echo "<strong style='color: #0275D8'>Đã hoàn thành profile</strong>";
+                                }
+                            ?></td>
 						</tr>
 					<?php }?>
 				</tbody>

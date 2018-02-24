@@ -25,6 +25,7 @@ class HBActionUser extends HBAction{
 		$post = $this->input->getPost();
 		$data = $post['teacher'];
         $data['created'] = current_time( 'mysql' );
+        $data['code'] = HBHelper::generateRandomCode();
 
         $users_info = get_user_by('login', $post['username']);
 
@@ -67,6 +68,8 @@ class HBActionUser extends HBAction{
 //            wp_die('invalid request');
         }
         $post = $this->input->getPost();
+//        $post['code'] = HBHelper::generateRandomCode();
+
         $data = $post['teacher'];
 
         $subject = '';
@@ -106,7 +109,11 @@ class HBActionUser extends HBAction{
             wp_safe_redirect(site_url("tai-khoan"));
             exit();
         }else{
-            hb_enqueue_message('Cập nhật thất bại');
+            if ($result == 0){
+                hb_enqueue_message('Không có thông tin nào được thay đổi');
+            }else{
+                hb_enqueue_message('Cập nhật thất bại');
+            }
             wp_safe_redirect(site_url("tai-khoan"));
             exit();
         }
@@ -459,16 +466,15 @@ class HBActionUser extends HBAction{
     }
 	
     function ajax_voting(){
-        $user = wp_get_current_user();
         //echo json_encode($_SERVER);
         $current_user_id = get_your_current_user_id();
-        if(!$current_user_id){
-            echo json_encode(array('status'=>0,'msg'=>'Vui lòng đăng nhập để bình chọn'));
-        }else{            
+//        if(!$current_user_id){
+//            echo json_encode(array('status'=>0,'msg'=>'Vui lòng đăng nhập để bình chọn'));
+//        }else{
             $teacher = $this->input->getInt('teacher_id');            
             if($teacher){
                 global $wpdb;
-                $wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$current_user_id}");
+//                $wpdb->query("delete from {$wpdb->prefix}hbpro_rating where teacher_id={$teacher} AND user_id={$current_user_id}");
                 
                 //HBImporter::libraries('model');
                 //$model = new HbModel('#__hbpro_rating','id');
@@ -483,7 +489,9 @@ class HBActionUser extends HBAction{
                 //$model->save($data);
 		
 				if($insert){
-					echo json_encode(array('status'=>1,'msg'=>'Thành công'));
+                    $count = $wpdb->query("SELECT * from {$wpdb->prefix}hbpro_rating WHERE teacher_id = {$teacher}");
+//					echo $count;
+                    echo json_encode(array('status'=>1,'msg'=>'Thành công', 'count'=>$count));
 				}else{
 					echo json_encode(array('status'=>0,'msg'=>'Lỗi'));
 				}
@@ -492,9 +500,8 @@ class HBActionUser extends HBAction{
 				echo json_encode(array('status'=>0,'msg'=>'Vui lòng chọn giáo viên'));
 			}
 			
-		}
+//		}
 		exit;
 	}
-	
-	
+
 }

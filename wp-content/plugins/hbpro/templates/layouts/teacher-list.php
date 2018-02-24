@@ -2,6 +2,8 @@
 HBImporter::helper('currency');
 $exp_type = HBParams::get_exp_type();
 $order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
+global $current_user;
+
 ?>
 <div class="row resultItem" style="margin-top: 15px">
 	<div class="col medium-2">
@@ -27,8 +29,8 @@ $order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
 	<div class="col medium-3">
 		<div class="row lead evaluation">
 			<div class="vers column-rating">
-				<?php echo HBHtml::star_rating($displayData->star_number)?>
-				<span class="num-ratings" aria-hidden="true">(<?php echo $displayData->star_volume?>)</span>
+				<?php echo HBHtml::star_rating($displayData->star_number, null, true, $displayData->id)?>
+				<span class="num-ratings" id="starNum<?php echo $displayData->id; ?>" aria-hidden="true">(<?php echo $displayData->star_volume?>)</span>
 			</div>
 
 			<div class="priceBox">
@@ -48,3 +50,35 @@ $order_link =site_url().'?view=orderbook&teacher_id='.$displayData->id;
         border-radius: 50%;
     }
 </style>
+
+
+<script>
+    jQuery(document).ready(function($){
+        $('#star<?php echo $displayData->id; ?>').each(function(){
+            $(this).starrr({
+                rating: $(this).attr("rating"),//$(this).attr("rating"),
+                change: function(e, value){
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '<?php echo site_url()?>/index.php?hbaction=user&task=ajax_voting&current_user=<?php echo $current_user->ID?>&'+ new Date().getTime(),
+                        data: 'teacher_id=<?php echo $displayData->id?>&notes='+$('#notes').val()+'&star_number='+value,
+                        dataType: 'json',
+                        beforeSend: function() {
+                        },
+                        success : function(result) {
+                            console.log(result);
+                            if(result.status==1){
+                                $('#starNum<?php echo $displayData->id; ?>').html('('+result.count+')')
+                                return false;
+                            }else {
+                                alert(result.msg);
+                                return false;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

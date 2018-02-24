@@ -2,6 +2,7 @@
 <!--[if IE 9 ]> <html <?php language_attributes(); ?> class="ie9 <?php flatsome_html_classes(); ?>"> <![endif]-->
 <!--[if IE 8 ]> <html <?php language_attributes(); ?> class="ie8 <?php flatsome_html_classes(); ?>"> <![endif]-->
 <!--[if (gte IE 9)|!(IE)]><!--><html <?php language_attributes(); ?> class="<?php flatsome_html_classes(); ?>"> <!--<![endif]-->
+
 <head>
 	<meta charset="<?php bloginfo( 'charset' ); ?>" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -12,7 +13,6 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!-- ============================== -->
 	<?php wp_head(); ?>
-
     <script type="application/ld+json">{"@context":"http://schema.org","@type":"Blog","url":"https://giasutriviet.edu.vn/"}</script><script type="application/ld+json">{"@context":"http://schema.org","@type":"Organization","name":"giasutriviet","url":"https://giasutriviet.edu.vn/","sameAs":["https://www.facebook.com/TrungTamGiaSuTriViet/"]}</script>
 
 </head>

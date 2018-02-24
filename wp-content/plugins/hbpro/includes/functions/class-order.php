@@ -26,12 +26,13 @@ class HBActionOrder extends HBAction{
         $data['created'] = current_time( 'mysql' );
         $insert = $wpdb->insert("{$wpdb->prefix}hbpro_orders", $data);
         if ($insert){
-            hb_enqueue_message('Chúc mừng bạn đã đăng kí thành công');
+            hb_enqueue_message('Bạn đang đăng ký thành công, Chúng tôi sẽ liên hệ với bạn sớm nhất');
             $new_order = $wpdb->get_row('select * from '.$wpdb->prefix.'hbpro_orders where id='.$wpdb->insert_id);
 
             $html = HBHelper::renderLayout('confirm-order', $new_order,'emails');
 
-            HBHelper::sendMail($data['email'], 'Xác nhận đăng kí từ Giasutriviet.edu.vn', $html);
+//            HBHelper::sendMail($data['email'], 'Xác nhận đăng kí từ Giasutriviet.edu.vn', $html);
+            HBHelper::sendMail('trungtamtriviethcm@gmail.com', 'Đơn đăng ký học từ Giasutriviet.edu.vn', $html);
         }else{
             hb_enqueue_message('Đăng ký thất bại');
         }

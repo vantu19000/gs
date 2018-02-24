@@ -50,7 +50,7 @@ foreach ($quanhuyen AS $value){
 <!--                        <p>--><?php //echo $exp_type[$item->exp_type]?><!-- </p>-->
                         <p>Học vấn: <?php echo HBParams::get_degree_type()[$item->degree_type];?></p>
                         <p>Địa chỉ: <?php echo $item->address?></p>
-<!--                        --><?php //echo HBHtml::star_rating($item->star_number,$item->star_volume,false)?>
+<!--                            --><?php //echo HBHtml::star_rating($item->star_number,$item->star_volume,false)?>
 
                         <h5>Nhận gia sư</h5>
 
@@ -70,6 +70,8 @@ foreach ($quanhuyen AS $value){
                     </div>
                     <div class="col medium-6">
                         <img class="img-circle" width="200px" height="200px" src="<?php echo $item->icon?$item->icon:'https://upload.wikimedia.org/wikipedia/commons/1/1e/Default-avatar.jpg'?>" alt="<?php echo $item->full_name?>"/>
+                        <br>
+                        <?php echo HBHtml::star_rating($item->star_number,$item->star_volume,false)?>
                     </div>
                 </div>
 
@@ -78,9 +80,9 @@ foreach ($quanhuyen AS $value){
                 <h5>Giới thiệu thêm</h5>
                 <p><?php echo $item->desc?></p>
                 <div class="priceBox">
-                            <p>Mức lương mong muốn: <?php echo HBCurrencyHelper::displayPrice($item->salary)?>/giờ</p>
-                        </div>
-                <a  href="<?php echo site_url('/?view=orderbook&teacher_id='.$item->id)?>" class="button">Gửi yêu cầu</a>
+                    <p>Mức lương mong muốn: <?php echo HBCurrencyHelper::displayPrice($item->salary)?>/giờ</p>
+                </div>
+                <a href="<?php echo site_url('/?view=orderbook&teacher_id='.$item->id)?>" class="button">Gửi yêu cầu</a>
 			</div>
 			<div class="clearfix"></div>
 

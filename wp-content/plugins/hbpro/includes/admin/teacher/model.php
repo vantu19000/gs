@@ -9,9 +9,13 @@ class HBModelTeacher {
 		$input= HBFactory::getInput();
 		$limit = $input->get('limit',0);
 		$offset = $input->get('offset');
-		$query = "Select * from {$wpdb->prefix}hbpro_users WHERE status = 1 order by created DESC";
+		$code = null;
+        if ($_GET['code']){
+            $code = "AND code = '". $_GET['code']."'";
+        }
+		$query = "Select * from {$wpdb->prefix}hbpro_users WHERE status = 1 ".$code." order by created DESC";
+
 		if($limit && ($offset != null || $offset != '')){
-			
 			$query .= " limit $offset,$limit";
 		}
 		return $wpdb->get_results($query);

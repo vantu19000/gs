@@ -13,11 +13,24 @@ defined('ABSPATH') or die('Restricted access');
 <div class="wrap">
 	<h1>Quản lí gia sư <a href="https://giasutriviet.edu.vn/dang-ki-giang-vien" class="page-title-action" target="_blank" >Thêm gia sư</a></h1>
 
-    <div class="tablenav top">
+    <div class="tablenav top" style="margin-top: 20px; margin-bottom: 20px">
+
         <input class="button action" value="Xóa" type="button" onclick="return deleetes()">
+
+            <input type="text" id="code" placeholder="Mã gia sư" value="<?php if ($_GET['code']) echo $_GET['code']; ?>">
+            <input class="page-title-action" value="Lọc" type="button" onclick="return filtercode()">
+            <input class="page-title-action" value="X" type="button" onclick="return clearCode()">
+
+        <div class="tablenav-pages one-page">
+            <span class="displaying-num">14 mục</span>
+        </div>
     </div>
 
-	<div>
+    <form id="filterGS" method="post">
+        <input type="hidden" name="gs_code" id="gs_code">
+    </form>
+
+    <div>
 		<form id="formteacher" method="post">
 			<table class="wp-list-table widefat fixed striped posts">
 				<thead>
@@ -27,6 +40,7 @@ defined('ABSPATH') or die('Restricted access');
 						<th>Số điện thoại</th>
 						<th>Email</th>
 						<th>Địa chỉ</th>
+						<th>Mã gia sư</th>
 						<th>Ngày đăng kí</th>
 					</tr>
 				</thead>
@@ -38,6 +52,7 @@ defined('ABSPATH') or die('Restricted access');
 							<td><?php echo $item->mobile;?></td>
 							<td><?php echo $item->email;?></td>
 							<td><?php echo $item->address;?></td>
+                            <td><?php echo $item->code; ?></td>
 							<td><?php echo $item->created;?></td>
 						</tr>
 					<?php }?>
@@ -57,5 +72,22 @@ defined('ABSPATH') or die('Restricted access');
             document.getElementById('formteacher').action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=teacher&task=delete')?>";
             document.getElementById("formteacher").submit();
         }
+    }
+    
+    function filtercode() {
+        var val = document.getElementById("code").value;
+        if (!val){
+            alert("Vui lòng nhập mã gia sư");
+            return false;
+        }
+        document.getElementById("gs_code").value = val;
+        document.getElementById('filterGS').action = "<?php echo admin_url('admin.php?page=teacher&code=')?>"+val;
+        document.getElementById("filterGS").submit();
+    }
+
+    function clearCode() {
+        document.getElementById("code").value = "";
+        document.getElementById('filterGS').action = "<?php echo admin_url('admin.php?page=teacher')?>";
+        document.getElementById("filterGS").submit();
     }
 </script>

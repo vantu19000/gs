@@ -37,6 +37,7 @@ $expertype = HBParams::get_exp_type();
 
 
     <div id="taikhoan" style="margin: 20px">
+
         <nav id="nav-1">
             <a class="link-1" href="#">Cập nhật hồ sơ</a>
             <a class="link-1" href="#" id="myBtn">Thay đổi hình đại diện</a>
@@ -177,7 +178,7 @@ $expertype = HBParams::get_exp_type();
                 </div>
 
                 <div class="form-group row">
-                    <label class="col-xs-3 col-form-label" for="salary">Mức lương<span class="text-danger">*</span></label>
+                    <label class="col-xs-3 col-form-label" for="salary">Mức lương / Tháng<span class="text-danger">*</span></label>
                     <div class="col-xs-9">
                         <input class="form-control input-medium required" type="text" required id="salary"
                                value="<?php echo $meta->salary ?>" name="teacher[salary]"  />
@@ -239,6 +240,10 @@ $expertype = HBParams::get_exp_type();
                             <?php echo $meta->desc ?>
                         </textarea>
                     </div>
+                </div>
+<br>
+                <div class="form-group row">
+                    <label>ⓘ Vui Lòng điền đầy đủ thông tin và ảnh đại diện</label>
                 </div>
 
                 <center><button type="submit" class="button">CẬP NHẬT</button></center>
@@ -439,7 +444,6 @@ $expertype = HBParams::get_exp_type();
                 data: {province: tinh, recent: huyen},
                 type: "POST",
                 success: function(data, status){
-                    console.log(data);
                     $("#khuvuc").html(data);
                 },
             });
