@@ -9,7 +9,15 @@
  **/
 // die('ddfdf');
 defined('ABSPATH') or die('Restricted access');
+
+global $wpdb;
+$resul = $wpdb->get_results("SELECT count(*) AS count FROM {$wpdb->prefix}hbpro_users WHERE status != 1");
+$total = reset($resul)->count;
+
 ?>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <div class="wrap">
 	<h1>Gia sư mới đăng kí</h1>
 	
@@ -62,10 +70,24 @@ defined('ABSPATH') or die('Restricted access');
             <?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
 
         </form>
+
+        <div class="container">
+            <ul class="pagination">
+                <?php $recent = 1; if ($_GET['p']) $recent = $_GET['p']; ?>
+                <?php HBHelper::renderPagination($recent, CEIL($total / 20)); ?>
+            </ul>
+        </div>
+
 	</div>
 </div>
 
 <script>
+
+    function goToPage(page) {
+        var link = "<?php echo admin_url('admin.php?page=hb_register&p=')?>"+page;
+        window.location = link;
+    }
+
     function approve(){
         document.getElementById('formteacher').action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=register&task=approve')?>";
         document.getElementById("formteacher").submit();

@@ -9,6 +9,11 @@
  **/
 // die('ddfdf');
 defined('ABSPATH') or die('Restricted access');
+
+global $wpdb;
+$resul = $wpdb->get_results("SELECT count(*) AS count FROM {$wpdb->prefix}hbpro_orders");
+$total = reset($resul)->count;
+
 ?>
 <h1>Đơn đăng kí học</h1>
 
@@ -55,9 +60,25 @@ defined('ABSPATH') or die('Restricted access');
 
         <?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
     </form>
+
+    <div class="container">
+        <ul class="pagination">
+            <?php $recent = 1; if ($_GET['p']) $recent = $_GET['p']; ?>
+            <?php HBHelper::renderPagination($recent, CEIL($total / 20)); ?>
+        </ul>
+    </div>
+
+
 </div>
 
 <script>
+
+    function goToPage(page) {
+        var link = "<?php echo admin_url('admin.php?page=hb_dashboard&p=')?>"+page;
+        window.location = link;
+    }
+
+
     function deletes() {
         document.getElementById("formsubmit").action = "<?php echo admin_url('admin-post.php?action=hbaction&hbaction=orders&task=delete')?>";
         document.getElementById("formsubmit").submit();

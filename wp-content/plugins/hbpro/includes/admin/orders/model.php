@@ -53,10 +53,12 @@ class HBModelOrders {
     public function getItems(){
         global $wpdb;
         $input= HBFactory::getInput();
-        $limit = $input->get('limit',0);
-        $offset = $input->get('offset');
+        $recent = (int)$_GET['p'];
+        if (!$recent) $recent = 1;
+        $limit = $input->get('limit',20);
+        $offset = $input->get('offset', ($recent - 1) * 20);
         $query = "Select * from {$wpdb->prefix}hbpro_orders order by created DESC";
-        if($limit && ($offset != null || $offset != '')){
+        if($limit){
 
             $query .= " limit $offset,$limit";
         }

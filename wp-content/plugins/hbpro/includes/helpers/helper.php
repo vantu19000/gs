@@ -291,6 +291,31 @@ class HBHelper
         return $sessionId;
     }
 
+    public static function renderPagination($recent = 1, $total = 1, $link = "#") {
+		$range = 5;
+        $html = null;
+        if ($recent > $total) {
+        	echo '<li><a href="javascript:goToPage(1);">1</a></li>';
+		}
+        for ($i = 1; $i <= $total; $i++){
+        	$active = null;
+        	if ($i == $recent) $active = 'class="active"';
+        	if ($i == 1){
+                $html .= '<li '.$active.'><a href="javascript:goToPage('.$i.');">'.$i.'</a></li>';
+			}elseif ($i == $recent - $range){
+                $html .= '<li><a href="#">...</a></li>';
+			}elseif ($i > $recent-$range && $i < $recent+$range){
+                $html .= '<li '.$active.'><a href="javascript:goToPage('.$i.');">'.$i.'</a></li>';
+			}elseif ($i == $recent + $range && $recent+$range < $total){
+                $html .= '<li><a href="#">...</a></li>';
+			}elseif ($i == $total){
+                $html .= '<li '.$active.'><a href="javascript:goToPage('.$i.');">'.$i.'</a></li>';
+			}
+        }
+        if ($total > 1) echo $html;
+
+    }
+
 }
 
 

@@ -9,7 +9,14 @@
  **/
 // die('ddfdf');
 defined('ABSPATH') or die('Restricted access');
+
+global $wpdb;
+$resul = $wpdb->get_results("SELECT count(*) AS count FROM {$wpdb->prefix}hbpro_users WHERE status = 1");
+$total = reset($resul)->count;
+
 ?>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <div class="wrap">
 	<h1>Quản lí gia sư <a href="https://giasutriviet.edu.vn/dang-ki-giang-vien" class="page-title-action" target="_blank" >Thêm gia sư</a></h1>
 
@@ -22,7 +29,7 @@ defined('ABSPATH') or die('Restricted access');
             <input class="page-title-action" value="X" type="button" onclick="return clearCode()">
 
         <div class="tablenav-pages one-page">
-            <span class="displaying-num">14 mục</span>
+            <span class="displaying-num"><?php echo count($this->items); ?> mục</span>
         </div>
     </div>
 
@@ -62,10 +69,24 @@ defined('ABSPATH') or die('Restricted access');
             <?php wp_nonce_field( 'hb_action', 'hb_meta_nonce' );?>
 
         </form>
+
+
+        <div class="container">
+            <ul class="pagination">
+                <?php $recent = 1; if ($_GET['p']) $recent = $_GET['p']; ?>
+                <?php HBHelper::renderPagination($recent, CEIL($total / 20)); ?>
+            </ul>
+        </div>
+
 	</div>
 </div>
 
 <script>
+    
+    function goToPage(page) {
+        var link = "<?php echo admin_url('admin.php?page=teacher&p=')?>"+page;
+        window.location = link;
+    }
 
     function deleetes(){
         if (confirm("Bạn chắc chắn muốn xóa?")){

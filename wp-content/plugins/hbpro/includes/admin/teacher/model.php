@@ -7,15 +7,17 @@ class HBModelTeacher {
 	public function getItems(){
 		global $wpdb;
 		$input= HBFactory::getInput();
-		$limit = $input->get('limit',0);
-		$offset = $input->get('offset');
+		$limit = $input->get('limit',20);
+		$recent = (int)$_GET['p'];
+		if (!$recent) $recent = 1;
+		$offset = $input->get('offset', ($recent - 1) * 20);
 		$code = null;
         if ($_GET['code']){
             $code = "AND code = '". $_GET['code']."'";
         }
 		$query = "Select * from {$wpdb->prefix}hbpro_users WHERE status = 1 ".$code." order by created DESC";
 
-		if($limit && ($offset != null || $offset != '')){
+		if($limit){
 			$query .= " limit $offset,$limit";
 		}
 		return $wpdb->get_results($query);

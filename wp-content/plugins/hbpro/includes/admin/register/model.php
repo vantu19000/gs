@@ -3,10 +3,12 @@ class HBModelRegister extends WP_List_Table{
 	public function getItems(){
 		global $wpdb;
 		$input= HBFactory::getInput();
-		$limit = $input->get('limit',0);
-		$offset = $input->get('offset');
+        $recent = (int)$_GET['p'];
+        if (!$recent) $recent = 1;
+		$limit = $input->get('limit',20);
+		$offset = $input->get('offset', ($recent-1)*$limit);
 		$query = "Select * from {$wpdb->prefix}hbpro_users where status = 0 order by id ASC";
-		if($limit && ($offset != null || $offset != '')){
+		if($limit){
 			
 			$query .= " limit $offset,$limit";
 		}
