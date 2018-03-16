@@ -13,7 +13,7 @@ class HBActionDebug extends HBAction{
 	
 	public function __construct($config=array()){
 		parent::__construct();
-		$this->online_account = array('username'=>'vifonic_admin','password'=>'MatKhau@314!!!');
+		$this->online_account = '';
 		$this->online_page = array('https://giasutriviet.edu.vn/');
 		$this->checkPermission();
 //		die('No permission');
